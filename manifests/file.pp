@@ -24,24 +24,24 @@
 #   }
 #
 define postfix::file (
-    $postfixdir = '/etc/postfix',
-    $owner      = 'root',
-    $group      = 'root',
-    $mode       = '0644',
-    $content    = undef,
-    $source     = undef,
-    $ensure     = undef
+  $postfixdir = '/etc/postfix',
+  $owner      = 'root',
+  $group      = 'root',
+  $mode       = '0644',
+  $content    = undef,
+  $source     = undef,
+  $ensure     = undef
 ) {
 
-    file { "${postfixdir}/${title}":
-        owner   => $owner,
-        group   => $group,
-        mode    => $mode,
-        content => $content,
-        source  => $source,
-        ensure  => $ensure,
-        notify  => Service['postfix'],
-    }
+  file { "${postfixdir}/${title}":
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+    content => $content,
+    source  => $source,
+    ensure  => $ensure,
+    notify  => Service['postfix'],
+  }
 
 }
 

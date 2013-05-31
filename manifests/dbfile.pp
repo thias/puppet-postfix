@@ -18,42 +18,42 @@
 #
 # Sample Usage :
 #   postfix::dbfile { 'virtual':
-#       source => 'puppet:///modules/mymodule/postfix/virtual',
+#     source => 'puppet:///modules/mymodule/postfix/virtual',
 #   }
 #
 define postfix::dbfile (
-    $postfixdir = '/etc/postfix',
-    $owner      = 'root',
-    $group      = 'root',
-    $mode       = '0644',
-    $content    = undef,
-    $source     = undef,
-    $ensure     = undef
+  $postfixdir = '/etc/postfix',
+  $owner      = 'root',
+  $group      = 'root',
+  $mode       = '0644',
+  $content    = undef,
+  $source     = undef,
+  $ensure     = undef
 ) {
 
-    file { "${postfixdir}/${title}":
-        owner   => $owner,
-        group   => $group,
-        mode    => $mode,
-        content => $content,
-        source  => $source,
-        ensure  => $ensure,
+  file { "${postfixdir}/${title}":
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+    content => $content,
+    source  => $source,
+    ensure  => $ensure,
+  }
+
+  if $ensure == 'absent' {
+
+    file { "${postfixdir}/${title}.db": ensure => absent }
+
+  } else {
+
+    exec { "/usr/sbin/postmap ${title}":
+      cwd         => $postfixdir,
+      subscribe   => File["${postfixdir}/${title}"],
+      refreshonly => true,
+      notify      => Service["postfix"],
     }
 
-    if $ensure == 'absent' {
-
-        file { "${postfixdir}/${title}.db": ensure => absent }
-
-    } else {
-
-        exec { "/usr/sbin/postmap ${title}":
-            cwd         => $postfixdir,
-            subscribe   => File["${postfixdir}/${title}"],
-            refreshonly => true,
-            notify      => Service["postfix"],
-        }
-
-    }
+  }
 
 }
 
