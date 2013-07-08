@@ -77,9 +77,10 @@ class postfix::server (
   $spampd_children     = '20',
   $spampd_maxsize      = '512',
   # Other filters
-  $postgrey     = false,
-  $clamav       = false
-) {
+  $postgrey            = false,
+  $clamav              = false,
+  $daemon_directory    = $postfix::params::daemon_directory,
+) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
   if ( $::operatingsystem =~ /RedHat|CentOS/ and $::operatingsystemrelease >= 6 ) {
@@ -91,12 +92,19 @@ class postfix::server (
   # Main package and service it provides
   $package_name = $mysql ? { true  => 'postfix-mysql', false => 'postfix', }
   package { $package_name: ensure => installed, alias => 'postfix' }
+
+  if $::osfamily == 'Debian' {
+    $service_restart = '/usr/sbin/service postfix reload'
+  } else {
+    $service_restart = '/sbin/service postfix reload'
+  }
+
   service { 'postfix':
     require   => Package['postfix'],
     enable    => true,
     ensure    => running,
     hasstatus => true,
-    restart   => '/sbin/service postfix reload',
+    restart   => $service_restart,
   }
 
   file { '/etc/postfix/master.cf':
