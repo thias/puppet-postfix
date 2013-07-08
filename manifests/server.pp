@@ -79,7 +79,9 @@ class postfix::server (
   # Other filters
   $postgrey            = false,
   $clamav              = false,
-  $daemon_directory    = $postfix::params::daemon_directory,
+  # Parameters
+  $daemon_directory    = $::postfix::params::daemon_directory,
+  $service_restart     = $::postfix::params::service_restart
 ) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -92,12 +94,6 @@ class postfix::server (
   # Main package and service it provides
   $package_name = $mysql ? { true  => 'postfix-mysql', false => 'postfix', }
   package { $package_name: ensure => installed, alias => 'postfix' }
-
-  if $::osfamily == 'Debian' {
-    $service_restart = '/usr/sbin/service postfix reload'
-  } else {
-    $service_restart = '/sbin/service postfix reload'
-  }
 
   service { 'postfix':
     require   => Package['postfix'],
