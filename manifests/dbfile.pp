@@ -32,12 +32,12 @@ define postfix::dbfile (
 ) {
 
   file { "${postfixdir}/${title}":
+    ensure  => $ensure,
     owner   => $owner,
     group   => $group,
     mode    => $mode,
     content => $content,
     source  => $source,
-    ensure  => $ensure,
   }
 
   if $ensure == 'absent' {
@@ -50,7 +50,7 @@ define postfix::dbfile (
       cwd         => $postfixdir,
       subscribe   => File["${postfixdir}/${title}"],
       refreshonly => true,
-      notify      => Service["postfix"],
+      notify      => Service['postfix'],
     }
 
   }

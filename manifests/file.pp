@@ -34,12 +34,12 @@ define postfix::file (
 ) {
 
   file { "${postfixdir}/${title}":
+    ensure  => $ensure,
     owner   => $owner,
     group   => $group,
     mode    => $mode,
     content => $content,
     source  => $source,
-    ensure  => $ensure,
     notify  => Service['postfix'],
   }
 

@@ -100,9 +100,9 @@ class postfix::server (
   }
 
   service { 'postfix':
+    ensure    => running,
     require   => Package['postfix'],
     enable    => true,
-    ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
   }
@@ -122,9 +122,9 @@ class postfix::server (
     package { [ 'spamassassin', 'spampd' ]: ensure => installed }
     # Note that we don't want the normal spamassassin (spamd) service
     service { 'spampd':
+      ensure    => running,
       require   => Package['spampd'],
       enable    => true,
-      ensure    => running,
       hasstatus => true,
     }
     # Override the options passed to spampd
@@ -145,9 +145,9 @@ class postfix::server (
     # Main package and service it provides
     package { 'postgrey': ensure => installed }
     service { 'postgrey':
+      ensure    => running,
       require   => Package['postgrey'],
       enable    => true,
-      ensure    => running,
       # When stopped, status returns zero with 1.31-1.el5
       hasstatus => false,
     }
