@@ -696,7 +696,7 @@ mailq_path = /usr/bin/mailq.postfix
 # commands.  This must be a group name with a numerical group ID that
 # is not shared with other accounts, not even with the Postfix account.
 #
-setgid_group = postdrop
+setgid_group = <%= setgid_group %>
 
 # html_directory: The location of the Postfix HTML documentation.
 #
