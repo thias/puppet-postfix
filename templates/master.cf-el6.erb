@@ -9,17 +9,17 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 smtp      inet  n       -       n       -       -       smtpd
-<% smtp_content_filter.each do |content_filter| -%>
+<% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
-<% if submission -%>
+<% if @submission -%>
 submission inet n       -       n       -       -       smtpd
-  -o smtpd_tls_security_level=<%= submission_smtpd_tls_security_level %>
-  -o smtpd_sasl_auth_enable=<%= submission_smtpd_sasl_auth_enable %>
-  -o smtpd_client_restrictions=<%= submission_smtpd_client_restrictions %>
+  -o smtpd_tls_security_level=<%= @submission_smtpd_tls_security_level %>
+  -o smtpd_sasl_auth_enable=<%= @submission_smtpd_sasl_auth_enable %>
+  -o smtpd_client_restrictions=<%= @submission_smtpd_client_restrictions %>
   -o milter_macro_daemon_name=ORIGINATING
 <% end -%>
-<% if ssl -%>
+<% if @ssl -%>
 smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=yes
@@ -109,10 +109,10 @@ scache    unix  -       -       n       -       1       scache
 #mailman   unix  -       n       n       -       -       pipe
 #  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
-<% if virtual_transport == 'dovecot' -%>
+<% if @virtual_transport == 'dovecot' -%>
 dovecot   unix  -       n       n       -       -       pipe
   flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${recipient}
 <% end -%>
-<% master_services.each do |service| -%>
+<% @master_services.each do |service| -%>
 <%= service %>
 <% end -%>

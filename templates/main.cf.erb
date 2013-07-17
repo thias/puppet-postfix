@@ -68,7 +68,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
-myhostname = <%= myhostname %>
+myhostname = <%= @myhostname %>
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -76,8 +76,8 @@ myhostname = <%= myhostname %>
 # parameters.
 #
 #mydomain = domain.tld
-<% if mydomain -%>
-mydomain = <%= mydomain %>
+<% if @mydomain -%>
+mydomain = <%= @mydomain %>
 <% end -%>
 
 # SENDING MAIL
@@ -95,7 +95,7 @@ mydomain = <%= mydomain %>
 #
 #myorigin = $myhostname
 #myorigin = $mydomain
-myorigin = <%= myorigin %>
+myorigin = <%= @myorigin %>
 
 # RECEIVING MAIL
 
@@ -112,7 +112,7 @@ myorigin = <%= myorigin %>
 #inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
-inet_interfaces = <%= inet_interfaces %>
+inet_interfaces = <%= @inet_interfaces %>
 
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
@@ -125,8 +125,8 @@ inet_interfaces = <%= inet_interfaces %>
 #
 #proxy_interfaces =
 #proxy_interfaces = 1.2.3.4
-<% if proxy_interfaces -%>
-proxy_interfaces = <%= proxy_interfaces %>
+<% if @proxy_interfaces -%>
+proxy_interfaces = <%= @proxy_interfaces %>
 <% end -%>
 
 # The mydestination parameter specifies the list of domains that this
@@ -160,7 +160,7 @@ proxy_interfaces = <%= proxy_interfaces %>
 #
 # See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
 #
-mydestination = <%= mydestination %>
+mydestination = <%= @mydestination %>
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
@@ -207,8 +207,8 @@ mydestination = <%= mydestination %>
 #local_recipient_maps = unix:passwd.byname $alias_maps
 #local_recipient_maps = proxy:unix:passwd.byname $alias_maps
 #local_recipient_maps =
-<% if local_recipient_maps -%>
-local_recipient_maps = <%= local_recipient_maps %>
+<% if @local_recipient_maps -%>
+local_recipient_maps = <%= @local_recipient_maps %>
 <% end -%>
 
 # The unknown_local_recipient_reject_code specifies the SMTP server
@@ -220,7 +220,7 @@ local_recipient_maps = <%= local_recipient_maps %>
 # with 450 (try again later) until you are certain that your
 # local_recipient_maps settings are OK.
 #
-unknown_local_recipient_reject_code = <%= unknown_local_recipient_reject_code %>
+unknown_local_recipient_reject_code = <%= @unknown_local_recipient_reject_code %>
 
 # TRUST AND RELAY CONTROL
 
@@ -251,8 +251,8 @@ unknown_local_recipient_reject_code = <%= unknown_local_recipient_reject_code %>
 #mynetworks_style = class
 #mynetworks_style = subnet
 #mynetworks_style = host
-<% if mynetworks_style -%>
-mynetworks_style = <%= mynetworks_style %>
+<% if @mynetworks_style -%>
+mynetworks_style = <%= @mynetworks_style %>
 <% end -%>
 
 # Alternatively, you can specify the mynetworks list by hand, in
@@ -269,8 +269,8 @@ mynetworks_style = <%= mynetworks_style %>
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
-<% if mynetworks -%>
-mynetworks = <%= mynetworks %>
+<% if @mynetworks -%>
+mynetworks = <%= @mynetworks %>
 <% end -%>
 
 # The relay_domains parameter restricts what destinations this system will
@@ -302,8 +302,8 @@ mynetworks = <%= mynetworks %>
 # permit_mx_backup restriction description in postconf(5).
 #
 #relay_domains = $mydestination
-<% if relay_domains -%>
-relay_domains = <%= relay_domains %>
+<% if @relay_domains -%>
+relay_domains = <%= @relay_domains %>
 <% end -%>
 
 # INTERNET OR INTRANET
@@ -326,8 +326,8 @@ relay_domains = <%= relay_domains %>
 #relayhost = [mailserver.isp.tld]
 #relayhost = uucphost
 #relayhost = [an.ip.add.ress]
-<% if relayhost -%>
-relayhost = <%= relayhost %>
+<% if @relayhost -%>
+relayhost = <%= @relayhost %>
 <% end -%>
 
 # REJECTING UNKNOWN RELAY USERS
@@ -343,8 +343,8 @@ relayhost = <%= relayhost %>
 # a user@domain.tld address.
 # 
 #relay_recipient_maps = hash:/etc/postfix/relay_recipients
-<% if relay_recipient_maps -%>
-relay_recipient_maps = <%= relay_recipient_maps %>
+<% if @relay_recipient_maps -%>
+relay_recipient_maps = <%= @relay_recipient_maps %>
 <% end -%>
 
 # INPUT RATE CONTROL
@@ -363,7 +363,7 @@ relay_recipient_maps = <%= relay_recipient_maps %>
 # Specify 0 to disable the feature. Valid delays are 0..10.
 # 
 #in_flow_delay = 1s
-in_flow_delay = <%= in_flow_delay %>
+in_flow_delay = <%= @in_flow_delay %>
 
 # ADDRESS REWRITING
 #
@@ -401,7 +401,7 @@ in_flow_delay = <%= in_flow_delay %>
 # "postfix reload" to eliminate the delay.
 #
 #alias_maps = dbm:/etc/aliases
-alias_maps = <%= alias_maps %>
+alias_maps = <%= @alias_maps %>
 #alias_maps = hash:/etc/aliases, nis:mail.aliases
 #alias_maps = netinfo:/aliases
 
@@ -412,7 +412,7 @@ alias_maps = <%= alias_maps %>
 #
 #alias_database = dbm:/etc/aliases
 #alias_database = dbm:/etc/mail/aliases
-alias_database = <%= alias_database %>
+alias_database = <%= @alias_database %>
 #alias_database = hash:/etc/aliases, hash:/opt/majordomo/aliases
 
 # ADDRESS EXTENSIONS (e.g., user+foo)
@@ -425,8 +425,8 @@ alias_database = <%= alias_database %>
 # trying user and .forward.
 #
 #recipient_delimiter = +
-<% if recipient_delimiter -%>
-recipient_delimiter = <%= recipient_delimiter %>
+<% if @recipient_delimiter -%>
+recipient_delimiter = <%= @recipient_delimiter %>
 <% end -%>
 
 # DELIVERY TO MAILBOX
@@ -438,8 +438,8 @@ recipient_delimiter = <%= recipient_delimiter %>
 #
 #home_mailbox = Mailbox
 #home_mailbox = Maildir/
-<% if home_mailbox -%>
-home_mailbox = <%= home_mailbox %>
+<% if @home_mailbox -%>
+home_mailbox = <%= @home_mailbox %>
 <% end -%>
 
 # The mail_spool_directory parameter specifies the directory where
@@ -448,8 +448,8 @@ home_mailbox = <%= home_mailbox %>
 #
 #mail_spool_directory = /var/mail
 #mail_spool_directory = /var/spool/mail
-<% if mail_spool_directory -%>
-mail_spool_directory = <%= mail_spool_directory %>
+<% if @mail_spool_directory -%>
+mail_spool_directory = <%= @mail_spool_directory %>
 <% end -%>
 
 # The mailbox_command parameter specifies the optional external
@@ -473,8 +473,8 @@ mail_spool_directory = <%= mail_spool_directory %>
 #
 #mailbox_command = /some/where/procmail
 #mailbox_command = /some/where/procmail -a "$EXTENSION"
-<% if mailbox_command -%>
-mailbox_command = <%= mailbox_command %>
+<% if @mailbox_command -%>
+mailbox_command = <%= @mailbox_command %>
 <% end -%>
 
 # The mailbox_transport specifies the optional transport in master.cf
@@ -598,7 +598,7 @@ header_checks = regexp:/etc/postfix/header_checks
 #
 #smtpd_banner = $myhostname ESMTP $mail_name
 #smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
-smtpd_banner = <%= smtpd_banner %>
+smtpd_banner = <%= @smtpd_banner %>
 
 # PARALLEL DELIVERY TO THE SAME DESTINATION
 #
@@ -687,7 +687,7 @@ mailq_path = /usr/bin/mailq.postfix
 # commands.  This must be a group name with a numerical group ID that
 # is not shared with other accounts, not even with the Postfix account.
 #
-setgid_group = <%= setgid_group %>
+setgid_group = <%= @setgid_group %>
 
 # html_directory: The location of the Postfix HTML documentation.
 #
@@ -706,102 +706,102 @@ sample_directory = /usr/share/doc/postfix-2.3.3/samples
 #
 readme_directory = /usr/share/doc/postfix-2.3.3/README_FILES
 
-<% if ssl -%>
+<% if @ssl -%>
 # TLS stuff
 smtpd_use_tls = yes
 smtpd_tls_loglevel = 1
-smtpd_tls_key_file = /etc/pki/tls/private/<%= ssl %>.key
-smtpd_tls_cert_file = /etc/pki/tls/certs/<%= ssl %>.crt
+smtpd_tls_key_file = /etc/pki/tls/private/<%= @ssl %>.key
+smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 
 <% end -%>
-<% if smtpd_sasl_auth -%>
+<% if @smtpd_sasl_auth -%>
 # Auth against external daemon (usually dovecot or cyrus)
 smtpd_sasl_auth_enable = yes
-smtpd_sasl_type = <%= smtpd_sasl_type %>
-smtpd_sasl_path = <%= smtpd_sasl_path %>
+smtpd_sasl_type = <%= @smtpd_sasl_type %>
+smtpd_sasl_path = <%= @smtpd_sasl_path %>
 
 <% end -%>
-<% if mail_name -%>
+<% if @mail_name -%>
 # Change the mail daemon name
-mail_name = <%= mail_name %>
+mail_name = <%= @mail_name %>
 
 <% end -%>
-<% if message_size_limit -%>
+<% if @message_size_limit -%>
 # Message size limit
-message_size_limit = <%= message_size_limit %>
+message_size_limit = <%= @message_size_limit %>
 
 <% end -%>
 # Make nobody redirect to /dev/null work
 allow_mail_to_files = alias
 
-<% if virtual_alias_domains -%>
+<% if @virtual_alias_domains -%>
 virtual_alias_domains =
-<% virtual_alias_domains.each do |line| -%>
+<% @virtual_alias_domains.each do |line| -%>
   <%= line %>,
 <% end -%>
 
 <% end -%>
-<% if virtual_alias_maps -%>
+<% if @virtual_alias_maps -%>
 virtual_alias_maps =
-<% virtual_alias_maps.each do |line| -%>
+<% @virtual_alias_maps.each do |line| -%>
   <%= line %>,
 <% end -%>
 
 <% end -%>
-<% if virtual_mailbox_domains -%>
+<% if @virtual_mailbox_domains -%>
 virtual_mailbox_domains =
-<% virtual_mailbox_domains.each do |line| -%>
+<% @virtual_mailbox_domains.each do |line| -%>
   <%= line %>,
 <% end -%>
 
 <% end -%>
-<% if virtual_mailbox_maps -%>
+<% if @virtual_mailbox_maps -%>
 virtual_mailbox_maps =
-<% virtual_mailbox_maps.each do |line| -%>
+<% @virtual_mailbox_maps.each do |line| -%>
   <%= line %>,
 <% end -%>
 
 <% end -%>
-<% if virtual_mailbox_base -%>
-virtual_mailbox_base = <%= virtual_mailbox_base %>
+<% if @virtual_mailbox_base -%>
+virtual_mailbox_base = <%= @virtual_mailbox_base %>
 
 <% end -%>
-<% if virtual_uid_maps -%>
-virtual_uid_maps = <%= virtual_uid_maps %>
+<% if @virtual_uid_maps -%>
+virtual_uid_maps = <%= @virtual_uid_maps %>
 
 <% end -%>
-<% if virtual_gid_maps -%>
-virtual_gid_maps = <%= virtual_gid_maps %>
+<% if @virtual_gid_maps -%>
+virtual_gid_maps = <%= @virtual_gid_maps %>
 
 <% end -%>
-<% if virtual_transport -%>
-virtual_transport = <%= virtual_transport %>
-<% if virtual_transport == 'dovecot' -%>
+<% if @virtual_transport -%>
+virtual_transport = <%= @virtual_transport %>
+<% if @virtual_transport == 'dovecot' -%>
 dovecot_destination_recipient_limit = 1
 <% end -%>
 
 <% end -%>
 # SMTP restrictions (block bogus stuff)
-<% if !smtpd_sender_restrictions.empty? -%>
+<% if !@smtpd_sender_restrictions.empty? -%>
 smtpd_sender_restrictions =
-<% smtpd_sender_restrictions.each do |line| -%>
+<% @smtpd_sender_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
 
 <% end -%>
-<% if !smtpd_recipient_restrictions.empty? or postgrey -%>
+<% if !@smtpd_recipient_restrictions.empty? or postgrey -%>
 smtpd_recipient_restrictions =
-<% smtpd_recipient_restrictions.each do |line| -%>
+<% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
-<% if postgrey -%>
+<% if @postgrey -%>
   check_policy_service unix:postgrey/socket,
 <% end -%>
 
 <% end -%>
 body_checks = regexp:/etc/postfix/body_checks
 
-<% if sender_canonical_maps -%>
-sender_canonical_maps = <%= sender_canonical_maps %>
+<% if @sender_canonical_maps -%>
+sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
