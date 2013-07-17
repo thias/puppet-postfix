@@ -33,6 +33,7 @@ class postfix::server (
   $mail_spool_directory = false,
   $mailbox_command = false,
   $smtpd_banner = '$myhostname ESMTP $mail_name',
+  $setgid_group = 'postdrop',
   $message_size_limit = false,
   $mail_name = false,
   $virtual_alias_domains = false,
