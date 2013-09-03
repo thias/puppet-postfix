@@ -39,13 +39,7 @@ command_directory = /usr/sbin
 # daemon programs (i.e. programs listed in the master.cf file). This
 # directory must be owned by root.
 #
-daemon_directory = /usr/libexec/postfix
-
-# The data_directory parameter specifies the location of Postfix-writable
-# data files (caches, random numbers). This directory must be owned
-# by the mail_owner account (see below).
-#
-data_directory = /var/lib/postfix
+daemon_directory = <%= @daemon_directory %>
 
 # QUEUE AND PROCESS OWNERSHIP
 #
@@ -119,9 +113,6 @@ myorigin = <%= @myorigin %>
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
 inet_interfaces = <%= @inet_interfaces %>
-
-# Enable IPv4, and IPv6 if supported
-inet_protocols = <%= @inet_protocols %>
 
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
@@ -652,7 +643,7 @@ debug_peer_level = 2
 #
 debugger_command =
 	 PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
-	 ddd $daemon_directory/$process_name $process_id & sleep 5
+	 xxgdb $daemon_directory/$process_name $process_id & sleep 5
 
 # If you can't use X, use this to capture the call stack when a
 # daemon crashes. The result is in a file in the configuration
@@ -709,11 +700,11 @@ manpage_directory = /usr/share/man
 # sample_directory: The location of the Postfix sample configuration files.
 # This parameter is obsolete as of Postfix 2.1.
 #
-sample_directory = /usr/share/doc/postfix-2.6.6/samples
+sample_directory = /usr/share/doc/postfix-2.3.3/samples
 
 # readme_directory: The location of the Postfix README files.
 #
-readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES
+readme_directory = /usr/share/doc/postfix-2.3.3/README_FILES
 
 <% if @ssl -%>
 # TLS stuff
@@ -798,7 +789,7 @@ smtpd_sender_restrictions =
 <% end -%>
 
 <% end -%>
-<% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
+<% if !@smtpd_recipient_restrictions.empty? or postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,

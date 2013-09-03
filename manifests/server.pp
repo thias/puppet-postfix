@@ -86,8 +86,8 @@ class postfix::server (
 ) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
-  if ( $::operatingsystem =~ /RedHat|CentOS/ and $::operatingsystemrelease >= 6 ) {
-    $filesuffix = '-el6'
+  if ( $::operatingsystem =~ /RedHat|CentOS/ and $::operatingsystemrelease < 6 ) {
+    $filesuffix = '-el5'
   } else {
     $filesuffix = ''
   }

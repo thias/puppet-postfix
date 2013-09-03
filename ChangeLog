@@ -1,3 +1,5 @@
+* Reverse the el5/el6 logic to have the RHEL6 templates be the default now.
+
 2013-07-17 - 0.2.2
 * Add setgid_group option in main.cf (Karsten Schöke).
 * Update templates where @ variable prefixes were still missing.
