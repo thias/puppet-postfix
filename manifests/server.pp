@@ -47,6 +47,8 @@ class postfix::server (
   $smtpd_sender_restrictions = [],
   $smtpd_recipient_restrictions = [],
   $ssl = false,
+  $smtpd_tls_key_file = undef,
+  $smtpd_tls_cert_file = undef,
   $smtpd_sasl_auth = false,
   $smtpd_sasl_type = 'dovecot',
   $smtpd_sasl_path = 'private/auth',

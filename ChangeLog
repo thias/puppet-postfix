@@ -1,4 +1,6 @@
+2013-09-17 - 0.2.3
 * Reverse the el5/el6 logic to have the RHEL6 templates be the default now.
+* Add support for changing the key/crt file location and names.
 
 2013-07-17 - 0.2.2
 * Add setgid_group option in main.cf (Karsten Schöke).
