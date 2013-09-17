@@ -1,5 +1,6 @@
 2013-09-17 - 0.2.3
 * Reverse the el5/el6 logic to have the RHEL6 templates be the default now.
+* Update fallback_relay= to smtp_fallback_relay= in el5 master template (#4).
 * Add support for changing the key/crt file location and names.
 
 2013-07-17 - 0.2.2
