@@ -1,3 +1,5 @@
+* Add smtp client sasl auth configuration (aellert).
+
 2013-09-17 - 0.2.3
 * Reverse the el5/el6 logic to have the RHEL6 templates be the default now.
 * Update fallback_relay= to smtp_fallback_relay= in el5 master template (#4).
