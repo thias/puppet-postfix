@@ -738,6 +738,17 @@ smtpd_sasl_type = <%= @smtpd_sasl_type %>
 smtpd_sasl_path = <%= @smtpd_sasl_path %>
 
 <% end -%>
+<% if @smtp_sasl_auth -%>
+# Client auth against SMTP gateway
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = <%= @smtp_sasl_password_maps %>
+smtp_sasl_security_options = <%= @smtp_sasl_security_options %>
+smtp_tls_CAfile = <%= @smtp_tls_CAfile %>
+<% if @smtp_sasl_tls -%>
+smtp_use_tls = yes
+<% end -%>
+
+<% end -%>
 <% if @mail_name -%>
 # Change the mail daemon name
 mail_name = <%= @mail_name %>
