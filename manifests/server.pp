@@ -52,6 +52,11 @@ class postfix::server (
   $smtpd_sasl_auth = false,
   $smtpd_sasl_type = 'dovecot',
   $smtpd_sasl_path = 'private/auth',
+  $smtp_sasl_auth = false,
+  $smtp_sasl_password_maps = undef,
+  $smtp_sasl_security_options = undef,
+  $smtp_tls_CAfile = undef,
+  $smtp_sasl_tls = false,
   $sender_canonical_maps = false,
   # master.cf
   $smtp_content_filter = [],
