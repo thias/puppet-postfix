@@ -88,7 +88,7 @@ ifmail    unix  -       n       n       -       -       pipe
 bsmtp     unix  -       n       n       -       -       pipe
   flags=Fq. user=foo argv=/usr/local/sbin/bsmtp -f $sender $nexthop $recipient
 dovecot   unix  -       n       n       -       -       pipe
-  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${recipient}
+  flags=DRhu user=vmail:vmail argv=<%= @dovecot_directory %>/deliver -f ${sender} -d ${recipient}
 <% @master_services.each do |service| -%>
 <%= service %>
 <% end -%>
