@@ -27,6 +27,8 @@ some major clean up, but is currently fully functional.
         'proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_catchall_maps.cf',
       ],
       virtual_transport         => 'dovecot',
+      # if you want dovecot to deliver user+foo@example.org to user@example.org, set this to true
+      virtual_extensions        => false,
       smtpd_sender_restrictions => [
         'permit_mynetworks',
         'reject_unknown_sender_domain',

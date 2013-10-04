@@ -110,8 +110,13 @@ scache    unix  -       -       n       -       1       scache
 #  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
 <% if @virtual_transport == 'dovecot' -%>
+<% if @virtual_extensions -%>
 dovecot   unix  -       n       n       -       -       pipe
-  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${recipient}
+  flags=DRhu user=vmail:vmail argv=<%= @dovecot_directory %>/deliver -f ${sender} -d ${user}@${nexthop}
+<% else -%>
+dovecot   unix  -       n       n       -       -       pipe
+  flags=DRhu user=vmail:vmail argv=<%= @dovecot_directory %>/deliver -f ${sender} -d ${recipient}
+<% end -%>
 <% end -%>
 <% @master_services.each do |service| -%>
 <%= service %>
