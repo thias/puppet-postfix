@@ -44,6 +44,7 @@ class postfix::server (
   $virtual_uid_maps = false,
   $virtual_gid_maps = false,
   $virtual_transport = false,
+  $virtual_extensions = false,
   $smtpd_sender_restrictions = [],
   $smtpd_recipient_restrictions = [],
   $ssl = false,
