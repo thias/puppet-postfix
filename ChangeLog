@@ -1,5 +1,6 @@
 * Add smtp client sasl auth configuration (aellert).
 * Fix dovecot directory for Debian (Florian Anderiasch).
+* Fix first run errors on master.cf and main.cf's parent directory (#12).
 
 2013-09-17 - 0.2.3
 * Reverse the el5/el6 logic to have the RHEL6 templates be the default now.

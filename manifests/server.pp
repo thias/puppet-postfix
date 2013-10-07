@@ -114,10 +114,12 @@ class postfix::server (
   file { '/etc/postfix/master.cf':
     content => template("postfix/master.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
+    require => Package['postfix'],
   }
   file { '/etc/postfix/main.cf':
     content => template("postfix/main.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
+    require => Package['postfix'],
   }
 
   # Optional Spamassassin setup (using spampd)
