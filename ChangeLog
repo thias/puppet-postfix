@@ -1,3 +1,4 @@
+2013-10-28 - 0.2.4
 * Add smtp client sasl auth configuration (aellert).
 * Fix dovecot directory for Debian (Florian Anderiasch).
 * Fix first run errors on master.cf and main.cf's parent directory (#12).
