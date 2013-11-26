@@ -6,6 +6,7 @@
 # file as /etc/postfix/postgrey_whitelist_clients.local too.
 #
 # Sample Usage :
+#
 class postfix::server (
   # To install postfix-mysql package instead of plain postfix (EL5)
   $mysql = false,

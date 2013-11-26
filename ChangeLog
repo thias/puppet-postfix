@@ -1,3 +1,5 @@
+* Support a few more main.cf directives (#15, RedRampage).
+
 2013-10-28 - 0.2.4
 * Add smtp client sasl auth configuration (aellert).
 * Fix dovecot directory for Debian (Florian Anderiasch).
