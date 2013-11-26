@@ -6,7 +6,6 @@
 # file as /etc/postfix/postgrey_whitelist_clients.local too.
 #
 # Sample Usage :
-#
 class postfix::server (
   # To install postfix-mysql package instead of plain postfix (EL5)
   $mysql = false,
@@ -19,6 +18,7 @@ class postfix::server (
   $proxy_interfaces = false,
   $mydestination = '$myhostname, localhost.$mydomain, localhost',
   $local_recipient_maps = false,
+  $luser_relay = false,
   $unknown_local_recipient_reject_code = '550',
   $mynetworks_style = false,
   $mynetworks = false,
@@ -44,8 +44,11 @@ class postfix::server (
   $virtual_uid_maps = false,
   $virtual_gid_maps = false,
   $virtual_transport = false,
+  $masquerade_classes = false,
+  $masquerade_domains = false,
   $smtpd_sender_restrictions = [],
   $smtpd_recipient_restrictions = [],
+  $smtpd_delay_reject = false,
   $ssl = false,
   $smtpd_tls_key_file = undef,
   $smtpd_tls_cert_file = undef,

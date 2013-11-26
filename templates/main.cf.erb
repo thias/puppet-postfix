@@ -219,6 +219,9 @@ mydestination = <%= @mydestination %>
 <% if @local_recipient_maps -%>
 local_recipient_maps = <%= @local_recipient_maps %>
 <% end -%>
+<% if @luser_relay -%>
+luser_relay = <%= @luser_relay %>
+<% end -%>
 
 # The unknown_local_recipient_reject_code specifies the SMTP server
 # response code when a recipient domain matches $mydestination or
@@ -379,6 +382,12 @@ in_flow_delay = <%= @in_flow_delay %>
 # The ADDRESS_REWRITING_README document gives information about
 # address masquerading or other forms of address rewriting including
 # username->Firstname.Lastname mapping.
+<% if @masquerade_classes -%>
+masquerade_classes = <%= @masquerade_classes %>
+<% end -%>
+<% if @masquerade_domains -%>
+masquerade_domains = <%= @masquerade_domains %>
+<% end -%>
 
 # ADDRESS REDIRECTION (VIRTUAL DOMAIN)
 #
@@ -816,6 +825,10 @@ smtpd_sender_restrictions =
   <%= line %>,
 <% end -%>
 
+<% end -%>
+
+<% if @smtpd_delay_reject -%>
+smtpd_delay_reject = <%= @smtpd_delay_reject %>
 <% end -%>
 <% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
