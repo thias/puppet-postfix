@@ -825,3 +825,15 @@ body_checks = regexp:/etc/postfix/body_checks
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if @lmtp_host_lookup -%>
+lmtp_host_lookup = <%= @lmtp_host_lookup %>
+<% end -%>
+<% if @smtp_host_lookup -%>
+smtp_host_lookup = <%= @smtp_host_lookup %>
+<% end -%>
+<% if @disable_dns_lookups -%>
+disable_dns_lookups = <%= @disable_dns_lookups %>
+<% end -%>
+<% if @ignore_mx_lookup_error -%>
+ignore_mx_lookup_error = <%= @ignore_mx_lookup_error %>
+<% end -%>
