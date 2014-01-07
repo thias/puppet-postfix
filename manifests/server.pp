@@ -93,7 +93,12 @@ class postfix::server (
   $clamav              = false,
   # Parameters
   $daemon_directory    = $::postfix::params::daemon_directory,
-  $service_restart     = $::postfix::params::service_restart
+  $service_restart     = $::postfix::params::service_restart,
+  $lmtp_host_lookup    = undef,
+  $smtp_host_lookup    = undef,
+  $disable_dns_lookups = undef,
+  $ignore_mx_lookup_error = undef
+
 ) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
