@@ -1,4 +1,5 @@
 * Support a few more main.cf directives (#15, RedRampage).
+* Add extra_main_parameters to support any extra main.cf directives.
 
 2013-10-28 - 0.2.4
 * Add smtp client sasl auth configuration (aellert).

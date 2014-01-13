@@ -62,6 +62,7 @@ class postfix::server (
   $smtp_tls_CAfile = undef,
   $smtp_sasl_tls = false,
   $sender_canonical_maps = false,
+  $extra_main_parameters = {},
   # master.cf
   $smtp_content_filter = [],
   $submission = false,

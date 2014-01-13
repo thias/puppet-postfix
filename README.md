@@ -60,6 +60,26 @@ class { 'postfix::server':
 }
 ```
 
+## Parameters for main.cf
+
+The most common parameters are supported as parameters to the `postfix::server`
+class, but any other ones may be added using the `$extra_main_parameters` hash
+parameter, to which keys are `main.cf` parameter names and values can be either
+a value string or array of strings.
+
+Example :
+```puppet
+class { 'postfix::server':
+  extra_main_parameters => {
+    'virtual_mailbox_lock' => [
+      'fcntl',
+      'dotlock',
+    ],
+    virtual_minimum_uid => '1000',
+  },
+}
+```
+
 ## Limitations
 
 * The service will only be reloaded on configuration change, meaning that

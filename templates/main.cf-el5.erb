@@ -825,3 +825,10 @@ body_checks = regexp:/etc/postfix/body_checks
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if ! @extra_main_parameters.empty? -%>
+# Parameters set using 'extra_main_parameters'
+<% @extra_main_parameters.sort_by {|key,value| key}.each do |key,value| -%>
+<%= key %> = <% if value.is_a?(Array) %><%= value.join(', ') %><% else %><%= value %><% end %>
+<% end -%>
+
+<% end -%>
