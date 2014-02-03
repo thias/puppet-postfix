@@ -28,6 +28,9 @@ class { 'postfix::server':
     'proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_catchall_maps.cf',
   ],
   virtual_transport         => 'dovecot',
+  # if you want dovecot to deliver user+foo@example.org to user@example.org,
+  # uncomment this: (c.f. http://wiki2.dovecot.org/LDA/Postfix#Virtual_users)
+  # dovecot_destination     => '${user}@${nexthop}',
   smtpd_sender_restrictions => [
     'permit_mynetworks',
     'reject_unknown_sender_domain',
