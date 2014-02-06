@@ -1,3 +1,5 @@
+* Add extension support for dovecot+virtual users (#19, @winks).
+
 2014-02-04 - 0.3.0
 * Support a few more main.cf directives (#15, RedRampage).
 * Add extra_main_parameters to support any extra main.cf directives.
