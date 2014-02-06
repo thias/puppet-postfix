@@ -45,6 +45,7 @@ class postfix::server (
   $virtual_uid_maps = false,
   $virtual_gid_maps = false,
   $virtual_transport = false,
+  $dovecot_destination = '${recipient}',
   $masquerade_classes = false,
   $masquerade_domains = false,
   $smtpd_sender_restrictions = [],

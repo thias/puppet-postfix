@@ -111,7 +111,7 @@ scache    unix  -       -       n       -       1       scache
 #  ${nexthop} ${user}
 <% if @virtual_transport == 'dovecot' -%>
 dovecot   unix  -       n       n       -       -       pipe
-  flags=DRhu user=vmail:vmail argv=<%= @dovecot_directory %>/deliver -f ${sender} -d ${recipient}
+  flags=DRhu user=vmail:vmail argv=<%= @dovecot_directory %>/deliver -f ${sender} -d <%= @dovecot_destination %>
 <% end -%>
 <% @master_services.each do |service| -%>
 <%= service %>
