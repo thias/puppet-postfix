@@ -752,15 +752,15 @@ smtpd_sasl_path = <%= @smtpd_sasl_path %>
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = <%= @smtp_sasl_password_maps %>
 smtp_sasl_security_options = <%= @smtp_sasl_security_options %>
-<%- if @smtp_tls_CAfile -%>
+<% if @smtp_tls_CAfile -%>
 smtp_tls_CAfile = <%= @smtp_tls_CAfile %>
-<%- end -%>
-<%- if @smtp_tls_CApath -%>
+<% end -%>
+<% if @smtp_tls_CApath -%>
 smtp_tls_CApath = <%= @smtp_tls_CApath %>
-<%- end -%>
-<%- if @smtp_tls_security_level -%>
+<% end -%>
+<% if @smtp_tls_security_level -%>
 smtp_tls_security_level = <%= @smtp_tls_security_level %>
-<%- end -%>
+<% end -%>
 <% if @smtp_sasl_tls -%>
 smtp_use_tls = yes
 <% end -%>
