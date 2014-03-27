@@ -26,6 +26,7 @@ class postfix::server (
   $relay_domains = false,
   $relayhost = false,
   $relay_recipient_maps = false,
+  $transport_maps = false,
   $in_flow_delay = '1s',
   $alias_maps = 'hash:/etc/aliases',
   $alias_database = 'hash:/etc/aliases',
@@ -64,7 +65,9 @@ class postfix::server (
   $smtp_tls_CApath = undef,
   $smtp_tls_security_level = undef,
   $smtp_sasl_tls = false,
+  $canonical_maps = false,
   $sender_canonical_maps = false,
+  $relocated_maps = false,
   $extra_main_parameters = {},
   # master.cf
   $smtp_content_filter = [],
