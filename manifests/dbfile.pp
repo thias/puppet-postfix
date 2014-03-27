@@ -28,7 +28,8 @@ define postfix::dbfile (
   $mode       = '0644',
   $content    = undef,
   $source     = undef,
-  $ensure     = undef
+  $ensure     = undef,
+  $postmap    = $::postfix::params::postmap
 ) {
 
   file { "${postfixdir}/${title}":
@@ -46,7 +47,7 @@ define postfix::dbfile (
 
   } else {
 
-    exec { "/usr/sbin/postmap ${title}":
+    exec { "${postmap} ${title}":
       cwd         => $postfixdir,
       subscribe   => File["${postfixdir}/${title}"],
       refreshonly => true,

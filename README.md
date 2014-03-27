@@ -2,8 +2,8 @@
 
 ## Overview
 
-This module is meant for Red Hat Enterprise Linux and clones. It still requires
-some major clean up, but is currently fully functional.
+This module is meant for Red Hat Enterprise Linux, its clones and FreeBSD. It
+still requires some major clean up, but is currently fully functional.
 
 * `postfix::dbfile` : Manage Postfix DB configuration files
 * `postfix::file` : Manage flat text Postfix configuration files

@@ -34,7 +34,7 @@ class postfix::server (
   $mail_spool_directory = false,
   $mailbox_command = false,
   $smtpd_banner = '$myhostname ESMTP $mail_name',
-  $setgid_group = 'postdrop',
+  $setgid_group = $::postfix::params::setgid_group,
   $message_size_limit = false,
   $mail_name = false,
   $virtual_alias_domains = false,
@@ -96,8 +96,23 @@ class postfix::server (
   $postgrey            = false,
   $clamav              = false,
   # Parameters
-  $daemon_directory    = $::postfix::params::daemon_directory,
-  $service_restart     = $::postfix::params::service_restart
+  $command_directory     = $::postfix::params::command_directory,
+  $config_directory      = $::postfix::params::config_directory,
+  $daemon_directory      = $::postfix::params::daemon_directory,
+  $data_directory        = $::postfix::params::data_directory,
+  $manpage_directory     = $::postfix::params::manpage_directory,
+  $readme_directory      = $::postfix::params::readme_directory,
+  $sample_directory      = $::postfix::params::sample_directory,
+  $postfix_package       = $::postfix::params::postfix_package,
+  $postfix_mysql_package = $::postfix::params::postfix_mysql_package,
+  $postgrey_package      = $::postfix::params::postgrey_package,
+  $service_restart       = $::postfix::params::service_restart,
+  $spamassassin_package  = $::postfix::params::spamassassin_package,
+  $spampd_package        = $::postfix::params::spampd_package,
+  $root_group            = $::postfix::params::root_group,
+  $mailq_path            = $::postfix::params::mailq_path,
+  $newaliases_path       = $::postfix::params::newaliases_path,
+  $sendmail_path         = $::postfix::params::sendmail_path,
 ) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -108,35 +123,39 @@ class postfix::server (
   }
 
   # Main package and service it provides
-  $package_name = $mysql ? { true  => 'postfix-mysql', false => 'postfix', }
+  if $mysql {
+    $package_name = $postfix_mysql_package
+  } else {
+    $package_name = $postfix_package
+  }
   package { $package_name: ensure => installed, alias => 'postfix' }
 
   service { 'postfix':
-    require   => Package['postfix'],
+    require   => Package[$package_name],
     enable    => true,
     ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
   }
 
-  file { '/etc/postfix/master.cf':
+  file { "${config_directory}/master.cf":
     content => template("postfix/master.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
-    require => Package['postfix'],
+    require => Package[$package_name],
   }
-  file { '/etc/postfix/main.cf':
+  file { "${config_directory}/main.cf":
     content => template("postfix/main.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
-    require => Package['postfix'],
+    require => Package[$package_name],
   }
 
   # Optional Spamassassin setup (using spampd)
   if $spamassassin {
     # Main packages and service they provide
-    package { [ 'spamassassin', 'spampd' ]: ensure => installed }
+    package { [ $spamassassin_package, $spampd_package ]: ensure => installed }
     # Note that we don't want the normal spamassassin (spamd) service
     service { 'spampd':
-      require   => Package['spampd'],
+      require   => Package[$spampd_package],
       enable    => true,
       ensure    => running,
       hasstatus => true,
@@ -148,7 +167,7 @@ class postfix::server (
     }
     # Change the spamassassin options
     file { '/etc/mail/spamassassin/local.cf':
-      require => Package['spamassassin'],
+      require => Package[$spamassassin_package],
       content => template('postfix/spamassassin-local.cf.erb'),
       notify  => Service['spampd'],
     }
@@ -157,9 +176,9 @@ class postfix::server (
   # Optional Postgrey setup
   if $postgrey {
     # Main package and service it provides
-    package { 'postgrey': ensure => installed }
+    package { $postgrey_package: ensure => installed }
     service { 'postgrey':
-      require   => Package['postgrey'],
+      require   => Package[$postgrey_package],
       enable    => true,
       ensure    => running,
       # When stopped, status returns zero with 1.31-1.el5
@@ -176,11 +195,15 @@ class postfix::server (
   # Regex header_checks
   postfix::file { 'header_checks':
     content => template('postfix/header_checks.erb'),
+    group => $root_group,
+    postfixdir => $config_directory,
   }
 
   # Regex body_checks
   postfix::file { 'body_checks':
     content => template('postfix/body_checks.erb'),
+    group => $root_group,
+    postfixdir => $config_directory,
   }
 
 }
