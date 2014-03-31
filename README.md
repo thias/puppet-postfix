@@ -12,9 +12,9 @@ still requires some major clean up, but is currently fully functional.
 ## Examples
 
 ```puppet
-class { 'postfix::server':
+class { '::postfix::server':
   myhostname              => 'mx1.example.com',
-  mydomain                => 'example.comt',
+  mydomain                => 'example.com',
   mydestination           => "\$myhostname, localhost.\$mydomain, localhost, $fqdn",
   inet_interfaces         => 'all',
   message_size_limit      => '15360000', # 15MB
@@ -52,12 +52,11 @@ class { 'postfix::server':
     '/^From: .*@(lcfnl\.com|.*\.cson4\.com|.*\.idep4\.com|.*\.gagc4\.com)/ REJECT user unknown',
   ],
   postgrey              => true,
-  clamav                => true,
   spamassassin          => true,
   sa_skip_rbl_checks    => '0',
   spampd_children       => '4',
-  # Send all emails to ClamSMTP, which sends to spampd on 10026
-  smtp_content_filter   => 'smtp:127.0.0.1:10025',
+  # Send all emails to spampd on 10026
+  smtp_content_filter   => 'smtp:127.0.0.1:10026',
   # This is where we get emails back from spampd
   master_services       => [ '127.0.0.1:10027 inet n  -       n       -      20       smtpd'],
 }
