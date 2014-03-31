@@ -392,7 +392,14 @@ masquerade_domains = <%= @masquerade_domains %>
 # TRANSPORT MAP
 #
 # See the discussion in the ADDRESS_REWRITING_README document.
+<% if @transport_maps -%>
+transport_maps = <%= @transport_maps %>
+<% end -%>
 
+<% if @relocated_maps -%>
+relocated_maps = <%= @relocated_maps %>
+
+<% end -%>
 # ALIAS DATABASE
 #
 # The alias_maps parameter specifies the list of alias databases used
@@ -821,6 +828,10 @@ smtpd_recipient_restrictions =
 <% end -%>
 body_checks = regexp:<%= @config_directory %>/body_checks
 
+<% if @canonical_maps -%>
+canonical_maps = <%= @canonical_maps %>
+
+<% end -%>
 <% if @sender_canonical_maps -%>
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
