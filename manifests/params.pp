@@ -3,13 +3,18 @@
 class postfix::params {
   case $::osfamily {
     'RedHat': {
+      $postfix_version = $::operatingsystemmajrelease ? {
+        '6'     => '2.6.6',
+        '5'     => '2.3.3',
+        default => '2.6.6',
+      }
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/libexec/postfix'
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
-      $readme_directory = '/usr/share/doc/postfix/README_FILES'
-      $sample_directory = '/usr/share/doc/postfix/samples'
+      $readme_directory = "/usr/share/doc/postfix-${postfix_version}/README_FILES"
+      $sample_directory = "/usr/share/doc/postfix-${postfix_version}/samples"
       $service_restart = '/sbin/service postfix reload'
       $dovecot_directory = '/usr/libexec/dovecot'
       $postfix_package = 'postfix'
@@ -23,7 +28,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
-    },
+    }
     'Debian': {
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
@@ -45,7 +50,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
-    },
+    }
     'FreeBSD': {
       $command_directory = '/usr/local/sbin'
       $config_directory = '/usr/local/etc/postfix'
@@ -67,10 +72,10 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
-    },
+    }
     default: {
       fail("Unsupported OS family ${::osfamily}")
-    },
+    }
   }
 }
 
