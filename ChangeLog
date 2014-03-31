@@ -1,4 +1,5 @@
 * Add FreeBSD support (#23, @fraenki).
+* Add transport_maps, canonical_maps & relocated_maps (#24, @fraenki).
 
 2014-03-18 - 0.3.1
 * Add extension support for dovecot+virtual users (#19, @winks).
