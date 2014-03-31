@@ -71,7 +71,7 @@ a value string or array of strings.
 
 Example :
 ```puppet
-class { 'postfix::server':
+class { '::postfix::server':
   extra_main_parameters => {
     'virtual_mailbox_lock' => [
       'fcntl',
