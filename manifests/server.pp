@@ -112,7 +112,7 @@ class postfix::server (
   $root_group            = $::postfix::params::root_group,
   $mailq_path            = $::postfix::params::mailq_path,
   $newaliases_path       = $::postfix::params::newaliases_path,
-  $sendmail_path         = $::postfix::params::sendmail_path,
+  $sendmail_path         = $::postfix::params::sendmail_path
 ) inherits postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -189,20 +189,20 @@ class postfix::server (
   # Optional ClamAV setup (using clamsmtp)
   # Defaults to listen on 10025 and re-send on 10026
   if $clamav {
-    include clamav::smtp
+    include '::clamav::smtp'
   }
 
   # Regex header_checks
   postfix::file { 'header_checks':
-    content => template('postfix/header_checks.erb'),
-    group => $root_group,
+    content    => template('postfix/header_checks.erb'),
+    group      => $root_group,
     postfixdir => $config_directory,
   }
 
   # Regex body_checks
   postfix::file { 'body_checks':
-    content => template('postfix/body_checks.erb'),
-    group => $root_group,
+    content    => template('postfix/body_checks.erb'),
+    group      => $root_group,
     postfixdir => $config_directory,
   }
 

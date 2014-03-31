@@ -1,3 +1,5 @@
+* Add FreeBSD support (#23, @fraenki).
+
 2014-03-18 - 0.3.1
 * Add extension support for dovecot+virtual users (#19, @winks).
 * Add new TLS directives (#21, Steffen Zieger).
