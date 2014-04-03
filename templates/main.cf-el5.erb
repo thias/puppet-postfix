@@ -738,6 +738,12 @@ smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 <% if @smtpd_tls_CAfile -%>
 smtpd_tls_CAfile = <%= @smtpd_tls_CAfile %>
 <% end -%>
+<% if @smtpd_tls_ask_ccert -%>
+smtpd_tls_ask_ccert = yes
+<% end -%>
+<% if @tls_append_default_CA -%>
+tls_append_default_CA = yes
+<% end -%>
 
 <% end -%>
 <% if @smtpd_sasl_auth -%>
@@ -770,6 +776,12 @@ smtp_tls_security_level = <%= @smtp_tls_security_level %>
 
 <% if @smtp_sasl_tls or @smtp_use_tls -%>
 smtp_use_tls = yes
+<% end -%>
+<% if @smtp_tls_key_file -%>
+smtp_tls_key_file = <%= @smtp_tls_key_file %>
+<% end -%>
+<% if @smtp_tls_cert_file -%>
+smtp_tls_cert_file = <%= @smtp_tls_cert_file %>
 <% end -%>
 <% if @smtp_tls_secure_cert_match -%>
 smtp_tls_secure_cert_match = <%= @smtp_tls_secure_cert_match %>

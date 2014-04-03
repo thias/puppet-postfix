@@ -785,6 +785,12 @@ smtp_tls_security_level = <%= @smtp_tls_security_level %>
 <% if @smtp_sasl_tls or @smtp_use_tls -%>
 smtp_use_tls = yes
 <% end -%>
+<% if @smtp_tls_key_file -%>
+smtp_tls_key_file = <%= @smtp_tls_key_file %>
+<% end -%>
+<% if @smtp_tls_cert_file -%>
+smtp_tls_cert_file = <%= @smtp_tls_cert_file %>
+<% end -%>
 <% if @smtp_tls_secure_cert_match -%>
 smtp_tls_secure_cert_match = <%= @smtp_tls_secure_cert_match %>
 <% end -%>
