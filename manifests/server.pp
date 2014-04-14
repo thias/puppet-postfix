@@ -83,7 +83,17 @@ class postfix::server (
   $header_checks = [],
   $body_checks = [],
   # Postscreen - available in Postfix 2.8 and later
-  $postscreen          = false,
+  $postscreen                  = false,
+  $postscreen_access_list      = ['permit_mynetworks'],
+  $postscreen_blacklist_action = 'enforce',
+  $postscreen_cache_map        = 'btree:$data_directory/postscreen_cache',
+  $postscreen_greet_wait       = '${stress?2}${stress:6}s',
+  $postscreen_greet_banner     = '$smtpd_banner',
+  $postscreen_greet_action     = 'enforce',
+  $postscreen_dnsbl_sites      = [],
+  $postscreen_dnsbl_reply_map  = undef,
+  $postscreen_dnsbl_threshold  = 1,
+  $postscreen_dnsbl_action     = 'enforce',
   # Spamassassin
   $spamassassin        = false,
   $sa_required_hits    = '5',
