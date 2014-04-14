@@ -863,6 +863,26 @@ canonical_maps = <%= @canonical_maps %>
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if @postscreen -%>
+# Postscreen configuration
+postscreen_access_list =
+<% @postscreen_access_list.each do |line| -%>
+  <%= line %>,
+<% end -%>
+postscreen_blacklist_action = <%= @postscreen_blacklist_action %>
+postscreen_cache_map = <%= @postscreen_cache_map %>
+postscreen_greet_wait = <%= @postscreen_greet_wait %>
+postscreen_greet_banner = <%= @postscreen_greet_banner %>
+postscreen_greet_action = <%= @postscreen_greet_action %>
+postscreen_dnsbl_sites =
+<% @postscreen_dnsbl_sites.each do |line| -%>
+  <%= line %>,
+<% end -%>
+postscreen_dnsbl_reply_map = <%= @postscreen_dnsbl_reply_map %>
+postscreen_dnsbl_threshold = <%= @postscreen_dnsbl_threshold %>
+postscreen_dnsbl_action = <%= @postscreen_dnsbl_action %>
+
+<% end -%>
 <% if ! @extra_main_parameters.empty? -%>
 # Parameters set using 'extra_main_parameters'
 <% @extra_main_parameters.sort_by {|key,value| key}.each do |key,value| -%>
