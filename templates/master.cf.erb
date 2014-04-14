@@ -8,7 +8,14 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
+<% unless @postscreen -%>
 smtp      inet  n       -       n       -       -       smtpd
+<% else -%>
+smtp      inet  n       -       n       -       1       postscreen
+tlsproxy  unix  -       -       n       -       0       tlsproxy
+dnsblog   unix  -       -       n       -       0       dnsblog
+smtpd     pass  -       -       n       -       -       smtpd
+<% end -%>
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>

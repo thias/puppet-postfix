@@ -82,6 +82,8 @@ class postfix::server (
   # Other files
   $header_checks = [],
   $body_checks = [],
+  # Postscreen - available in Postfix 2.8 and later
+  $postscreen          = false,
   # Spamassassin
   $spamassassin        = false,
   $sa_required_hits    = '5',
