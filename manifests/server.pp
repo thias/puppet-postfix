@@ -124,6 +124,8 @@ class postfix::server (
   $service_restart       = $::postfix::params::service_restart,
   $spamassassin_package  = $::postfix::params::spamassassin_package,
   $spampd_package        = $::postfix::params::spampd_package,
+  $spampd_config         = $::postfix::params::spampd_config,
+  $spampd_template       = $::postfix::params::spampd_template,
   $root_group            = $::postfix::params::root_group,
   $mailq_path            = $::postfix::params::mailq_path,
   $newaliases_path       = $::postfix::params::newaliases_path,
@@ -176,8 +178,8 @@ class postfix::server (
       hasstatus => true,
     }
     # Override the options passed to spampd
-    file { '/etc/sysconfig/spampd':
-      content => template('postfix/sysconfig-spampd.erb'),
+    file { $spampd_config:
+      content => template($spampd_template),
       notify  => Service['spampd'],
     }
     # Change the spamassassin options
