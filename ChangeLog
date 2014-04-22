@@ -1,3 +1,5 @@
+* Add Debian support for spampd (#26, @timogoebel).
+
 2014-03-31 - 0.3.2
 * Add FreeBSD support (#23, @fraenki).
 * Add transport_maps, canonical_maps & relocated_maps (#24, @fraenki).
