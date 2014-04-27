@@ -29,8 +29,8 @@ submission inet n       -       n       -       -       smtpd
 <% if @ssl -%>
 smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
-  -o smtpd_sasl_auth_enable=yes
-  -o smtpd_client_restrictions=permit_sasl_authenticated
+  -o smtpd_sasl_auth_enable=<%= @smtps_smtpd_sasl_auth_enable %>
+  -o smtpd_client_restrictions=<%= @smtps_smtpd_client_restrictions %>
   -o milter_macro_daemon_name=ORIGINATING
 <% end -%>
 #628      inet  n       -       n       -       -       qmqpd
