@@ -108,8 +108,9 @@ class postfix::server (
   $spampd_children     = '20',
   $spampd_maxsize      = '512',
   # Other filters
-  $postgrey            = false,
-  $clamav              = false,
+  $postgrey                = false,
+  $postgrey_policy_service = undef,
+  $clamav                  = false,
   # Parameters
   $command_directory     = $::postfix::params::command_directory,
   $config_directory      = $::postfix::params::config_directory,
