@@ -837,6 +837,9 @@ smtpd_delay_reject = <%= @smtpd_delay_reject %>
 <% end -%>
 
 # SMTP restrictions (block bogus stuff)
+<% if @smtpd_helo_required -%>
+smtpd_helo_required = yes
+<% end -%>
 <% if !@smtpd_client_restrictions.empty? -%>
 smtpd_client_restrictions =
 <% @smtpd_client_restrictions.each do |line| -%>
