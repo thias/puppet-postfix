@@ -859,8 +859,8 @@ smtpd_sender_restrictions =
 <% @smtpd_sender_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
-<% end -%>
 
+<% end -%>
 <% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>

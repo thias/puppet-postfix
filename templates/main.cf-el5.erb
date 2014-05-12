@@ -726,12 +726,12 @@ readme_directory = <%= @readme_directory %>
 smtpd_use_tls = yes
 smtpd_tls_loglevel = 1
 <% if @smtpd_tls_key_file -%>
-smtpd_tls_key_file = <%= smtpd_tls_key_file %>
+smtpd_tls_key_file = <%= @smtpd_tls_key_file %>
 <% else -%>
 smtpd_tls_key_file = /etc/pki/tls/private/<%= @ssl %>.key
 <% end -%>
 <% if @smtpd_tls_cert_file -%>
-smtpd_tls_cert_file = <%= smtpd_tls_cert_file -%>
+smtpd_tls_cert_file = <%= @smtpd_tls_cert_file -%>
 <% else -%>
 smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 <% end -%>
@@ -742,6 +742,25 @@ smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = <%= @smtpd_sasl_type %>
 smtpd_sasl_path = <%= @smtpd_sasl_path %>
+
+<% end -%>
+<% if @smtp_sasl_auth -%>
+# Client auth against SMTP gateway
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = <%= @smtp_sasl_password_maps %>
+smtp_sasl_security_options = <%= @smtp_sasl_security_options %>
+<% if @smtp_tls_CAfile -%>
+smtp_tls_CAfile = <%= @smtp_tls_CAfile %>
+<% end -%>
+<% if @smtp_tls_CApath -%>
+smtp_tls_CApath = <%= @smtp_tls_CApath %>
+<% end -%>
+<% if @smtp_tls_security_level -%>
+smtp_tls_security_level = <%= @smtp_tls_security_level %>
+<% end -%>
+<% if @smtp_sasl_tls -%>
+smtp_use_tls = yes
+<% end -%>
 
 <% end -%>
 <% if @mail_name -%>
@@ -801,10 +820,31 @@ virtual_gid_maps = <%= @virtual_gid_maps %>
 virtual_transport = <%= @virtual_transport %>
 <% if @virtual_transport == 'dovecot' -%>
 dovecot_destination_recipient_limit = 1
+
 <% end -%>
+<% end -%>
+<% if @smtpd_delay_reject -%>
+smtpd_delay_reject = <%= @smtpd_delay_reject %>
 
 <% end -%>
 # SMTP restrictions (block bogus stuff)
+<% if @smtpd_helo_required -%>
+smtpd_helo_required = yes
+<% end -%>
+<% if !@smtpd_client_restrictions.empty? -%>
+smtpd_client_restrictions =
+<% @smtpd_client_restrictions.each do |line| -%>
+  <%= line %>,
+<% end -%>
+
+<% end -%>
+<% if !@smtpd_helo_restrictions.empty? -%>
+smtpd_helo_restrictions =
+<% @smtpd_helo_restrictions.each do |line| -%>
+  <%= line %>,
+<% end -%>
+
+<% end -%>
 <% if !@smtpd_sender_restrictions.empty? -%>
 smtpd_sender_restrictions =
 <% @smtpd_sender_restrictions.each do |line| -%>
@@ -812,16 +852,31 @@ smtpd_sender_restrictions =
 <% end -%>
 
 <% end -%>
-<% if @smtpd_delay_reject -%>
-smtpd_delay_reject = <%= @smtpd_delay_reject %>
-<% end -%>
-<% if !@smtpd_recipient_restrictions.empty? or postgrey -%>
+<% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
 <% if @postgrey -%>
+<% if @postgrey_policy_service -%>
+  check_policy_service <%= @postgrey_policy_service %>,
+<% else -%>
   check_policy_service unix:postgrey/socket,
+<% end -%>
+<% end -%>
+
+<% end -%>
+<% if !@smtpd_data_restrictions.empty? -%>
+smtpd_data_restrictions =
+<% @smtpd_data_restrictions.each do |line| -%>
+  <%= line %>,
+<% end -%>
+
+<% end -%>
+<% if !@smtpd_end_of_data_restrictions.empty? -%>
+smtpd_end_of_data_restrictions =
+<% @smtpd_end_of_data_restrictions.each do |line| -%>
+  <%= line %>,
 <% end -%>
 
 <% end -%>
