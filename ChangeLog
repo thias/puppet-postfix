@@ -1,4 +1,5 @@
 * Add Debian support for spampd (#26, @timogoebel).
+* Content filter SMTPS, add more parameters (#27, @tjnicholas).
 
 2014-03-31 - 0.3.2
 * Add FreeBSD support (#23, @fraenki).
