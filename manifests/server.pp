@@ -49,8 +49,13 @@ class postfix::server (
   $dovecot_destination = '${recipient}',
   $masquerade_classes = false,
   $masquerade_domains = false,
+  $smtpd_helo_required = false,
+  $smtpd_client_restrictions = [],
+  $smtpd_helo_restrictions = [],
   $smtpd_sender_restrictions = [],
   $smtpd_recipient_restrictions = [],
+  $smtpd_data_restrictions = [],
+  $smtpd_end_of_data_restrictions = [],
   $smtpd_delay_reject = false,
   $ssl = false,
   $smtpd_tls_key_file = undef,
@@ -71,13 +76,21 @@ class postfix::server (
   $extra_main_parameters = {},
   # master.cf
   $smtp_content_filter = [],
+  $smtps_content_filter = $smtp_content_filter,
   $submission = false,
   # EL5
   $submission_smtpd_enforce_tls = 'yes',
   # EL6
   $submission_smtpd_tls_security_level = 'encrypt',
   $submission_smtpd_sasl_auth_enable = 'yes',
+  $smtps_smtpd_sasl_auth_enable = 'yes',
+  # submission should only be used for authenticated delivery, so explicitly
+  # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
+  # smtps should allow unauthenticated delivery (for local or relay_domains for
+  # example) so no explicit reject. smtps port 465 is non-standards compliant 
+  # anyway so no one true answer. 
+  $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
   $header_checks = [],
@@ -108,8 +121,9 @@ class postfix::server (
   $spampd_children     = '20',
   $spampd_maxsize      = '512',
   # Other filters
-  $postgrey            = false,
-  $clamav              = false,
+  $postgrey                = false,
+  $postgrey_policy_service = undef,
+  $clamav                  = false,
   # Parameters
   $command_directory     = $::postfix::params::command_directory,
   $config_directory      = $::postfix::params::config_directory,
