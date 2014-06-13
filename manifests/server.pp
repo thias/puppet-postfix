@@ -153,7 +153,7 @@ class postfix::server (
   $mailq_path            = $::postfix::params::mailq_path,
   $newaliases_path       = $::postfix::params::newaliases_path,
   $sendmail_path         = $::postfix::params::sendmail_path
-) inherits postfix::params {
+) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
   if ( $::operatingsystem =~ /RedHat|CentOS/ and $::operatingsystemrelease < 6 ) {

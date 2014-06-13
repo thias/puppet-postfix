@@ -20,7 +20,7 @@
 #
 # Sample Usage :
 #   postfix::file { 'header_checks':
-#       source => 'puppet:///modules/mymodule/postfix/header_checks',
+#     source => 'puppet:///modules/mymodule/postfix/header_checks',
 #   }
 #
 define postfix::file (
@@ -33,14 +33,17 @@ define postfix::file (
   $ensure     = undef
 ) {
 
+  include '::postfix::params'
+
   file { "${postfixdir}/${title}":
+    ensure  => $ensure,
     owner   => $owner,
     group   => $group,
     mode    => $mode,
     content => $content,
     source  => $source,
-    ensure  => $ensure,
     notify  => Service['postfix'],
+    require => Package[$::postfix::params::postfix_package],
   }
 
 }
