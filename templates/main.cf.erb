@@ -740,9 +740,18 @@ smtpd_tls_key_file = <%= @smtpd_tls_key_file %>
 smtpd_tls_key_file = /etc/pki/tls/private/<%= @ssl %>.key
 <% end -%>
 <% if @smtpd_tls_cert_file -%>
-smtpd_tls_cert_file = <%= @smtpd_tls_cert_file -%>
+smtpd_tls_cert_file = <%= @smtpd_tls_cert_file %>
 <% else -%>
 smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
+<% end -%>
+<% if @smtpd_tls_CAfile -%>
+smtpd_tls_CAfile = <%= @smtpd_tls_CAfile %>
+<% end -%>
+<% if @smtpd_tls_ask_ccert -%>
+smtpd_tls_ask_ccert = yes
+<% end -%>
+<% if @tls_append_default_CA -%>
+tls_append_default_CA = yes
 <% end -%>
 
 <% end -%>
@@ -756,8 +765,14 @@ smtpd_sasl_path = <%= @smtpd_sasl_path %>
 <% if @smtp_sasl_auth -%>
 # Client auth against SMTP gateway
 smtp_sasl_auth_enable = yes
+<% if @smtp_sasl_password_maps -%>
 smtp_sasl_password_maps = <%= @smtp_sasl_password_maps %>
+<% end -%>
+<% if @smtp_sasl_security_options -%>
 smtp_sasl_security_options = <%= @smtp_sasl_security_options %>
+<% end -%>
+
+<% end -%>
 <% if @smtp_tls_CAfile -%>
 smtp_tls_CAfile = <%= @smtp_tls_CAfile %>
 <% end -%>
@@ -767,11 +782,25 @@ smtp_tls_CApath = <%= @smtp_tls_CApath %>
 <% if @smtp_tls_security_level -%>
 smtp_tls_security_level = <%= @smtp_tls_security_level %>
 <% end -%>
-<% if @smtp_sasl_tls -%>
+<% if @smtp_sasl_tls or @smtp_use_tls -%>
 smtp_use_tls = yes
 <% end -%>
-
+<% if @smtp_tls_key_file -%>
+smtp_tls_key_file = <%= @smtp_tls_key_file %>
 <% end -%>
+<% if @smtp_tls_cert_file -%>
+smtp_tls_cert_file = <%= @smtp_tls_cert_file %>
+<% end -%>
+<% if @smtp_tls_secure_cert_match -%>
+smtp_tls_secure_cert_match = <%= @smtp_tls_secure_cert_match %>
+<% end -%>
+<% if @smtp_tls_note_starttls_offer -%>
+smtp_tls_note_starttls_offer = yes
+<% end -%>
+<% if @smtp_tls_mandatory_ciphers -%>
+smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
+<% end -%>
+
 <% if @mail_name -%>
 # Change the mail daemon name
 mail_name = <%= @mail_name %>
@@ -861,10 +890,21 @@ smtpd_sender_restrictions =
 <% end -%>
 
 <% end -%>
+
+<% if @smtpd_delay_reject -%>
+smtpd_delay_reject = <%= @smtpd_delay_reject %>
+<% end -%>
+<% if !@smtpd_client_restrictions.empty? or @postgrey -%>
+smtpd_client_restrictions =
+<% @smtpd_client_restrictions.each do |line| -%>
+  <%= line %>,
+<% end -%>
+<% end -%>
 <% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
+<% end -%>
 <% end -%>
 <% if @postgrey -%>
 <% if @postgrey_policy_service -%>
@@ -874,7 +914,6 @@ smtpd_recipient_restrictions =
 <% end -%>
 <% end -%>
 
-<% end -%>
 <% if !@smtpd_data_restrictions.empty? -%>
 smtpd_data_restrictions =
 <% @smtpd_data_restrictions.each do |line| -%>
@@ -887,8 +926,8 @@ smtpd_end_of_data_restrictions =
 <% @smtpd_end_of_data_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
-
 <% end -%>
+
 body_checks = regexp:<%= @config_directory %>/body_checks
 
 <% if @canonical_maps -%>
