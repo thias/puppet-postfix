@@ -764,6 +764,8 @@ smtp_sasl_security_options = <%= @smtp_sasl_security_options %>
 <% end -%>
 
 <% end -%>
+<% if @smtp_sasl_tls or @smtp_use_tls -%>
+smtp_use_tls = yes
 <% if @smtp_tls_CAfile -%>
 smtp_tls_CAfile = <%= @smtp_tls_CAfile %>
 <% end -%>
@@ -772,10 +774,6 @@ smtp_tls_CApath = <%= @smtp_tls_CApath %>
 <% end -%>
 <% if @smtp_tls_security_level -%>
 smtp_tls_security_level = <%= @smtp_tls_security_level %>
-<% end -%>
-
-<% if @smtp_sasl_tls or @smtp_use_tls -%>
-smtp_use_tls = yes
 <% end -%>
 <% if @smtp_tls_key_file -%>
 smtp_tls_key_file = <%= @smtp_tls_key_file %>
@@ -793,6 +791,7 @@ smtp_tls_note_starttls_offer = yes
 smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
 <% end -%>
 
+<% end -%>
 <% if @mail_name -%>
 # Change the mail daemon name
 mail_name = <%= @mail_name %>
@@ -853,20 +852,9 @@ dovecot_destination_recipient_limit = 1
 
 <% end -%>
 <% end -%>
-<% if @smtpd_delay_reject -%>
-smtpd_delay_reject = <%= @smtpd_delay_reject %>
-
-<% end -%>
 # SMTP restrictions (block bogus stuff)
 <% if @smtpd_helo_required -%>
 smtpd_helo_required = yes
-<% end -%>
-<% if !@smtpd_client_restrictions.empty? -%>
-smtpd_client_restrictions =
-<% @smtpd_client_restrictions.each do |line| -%>
-  <%= line %>,
-<% end -%>
-
 <% end -%>
 <% if !@smtpd_helo_restrictions.empty? -%>
 smtpd_helo_restrictions =
@@ -884,27 +872,27 @@ smtpd_sender_restrictions =
 <% end -%>
 <% if @smtpd_delay_reject -%>
 smtpd_delay_reject = <%= @smtpd_delay_reject %>
+
 <% end -%>
-<% if !@smtpd_client_restrictions.empty? or @postgrey -%>
+<% if !@smtpd_client_restrictions.empty? -%>
 smtpd_client_restrictions =
 <% @smtpd_client_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
+
 <% end -%>
 <% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
-<% end -%>
-<% if @postgrey -%>
 <% if @postgrey_policy_service -%>
   check_policy_service <%= @postgrey_policy_service %>,
 <% else -%>
   check_policy_service unix:postgrey/socket,
 <% end -%>
-<% end -%>
 
+<% end -%>
 <% if !@smtpd_data_restrictions.empty? -%>
 smtpd_data_restrictions =
 <% @smtpd_data_restrictions.each do |line| -%>
