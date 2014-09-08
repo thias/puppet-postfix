@@ -134,25 +134,26 @@ class postfix::server (
   $postgrey_policy_service = undef,
   $clamav                  = false,
   # Parameters
-  $command_directory     = $::postfix::params::command_directory,
-  $config_directory      = $::postfix::params::config_directory,
-  $daemon_directory      = $::postfix::params::daemon_directory,
-  $data_directory        = $::postfix::params::data_directory,
-  $manpage_directory     = $::postfix::params::manpage_directory,
-  $readme_directory      = $::postfix::params::readme_directory,
-  $sample_directory      = $::postfix::params::sample_directory,
-  $postfix_package       = $::postfix::params::postfix_package,
-  $postfix_mysql_package = $::postfix::params::postfix_mysql_package,
-  $postgrey_package      = $::postfix::params::postgrey_package,
-  $service_restart       = $::postfix::params::service_restart,
-  $spamassassin_package  = $::postfix::params::spamassassin_package,
-  $spampd_package        = $::postfix::params::spampd_package,
-  $spampd_config         = $::postfix::params::spampd_config,
-  $spampd_template       = $::postfix::params::spampd_template,
-  $root_group            = $::postfix::params::root_group,
-  $mailq_path            = $::postfix::params::mailq_path,
-  $newaliases_path       = $::postfix::params::newaliases_path,
-  $sendmail_path         = $::postfix::params::sendmail_path
+  $command_directory      = $::postfix::params::command_directory,
+  $config_directory       = $::postfix::params::config_directory,
+  $daemon_directory       = $::postfix::params::daemon_directory,
+  $data_directory         = $::postfix::params::data_directory,
+  $manpage_directory      = $::postfix::params::manpage_directory,
+  $readme_directory       = $::postfix::params::readme_directory,
+  $sample_directory       = $::postfix::params::sample_directory,
+  $postfix_package        = $::postfix::params::postfix_package,
+  $postfix_mysql_package  = $::postfix::params::postfix_mysql_package,
+  $postfix_package_ensure = $::postfix::params::postfix_package_ensure,
+  $postgrey_package       = $::postfix::params::postgrey_package,
+  $service_restart        = $::postfix::params::service_restart,
+  $spamassassin_package   = $::postfix::params::spamassassin_package,
+  $spampd_package         = $::postfix::params::spampd_package,
+  $spampd_config          = $::postfix::params::spampd_config,
+  $spampd_template        = $::postfix::params::spampd_template,
+  $root_group             = $::postfix::params::root_group,
+  $mailq_path             = $::postfix::params::mailq_path,
+  $newaliases_path        = $::postfix::params::newaliases_path,
+  $sendmail_path          = $::postfix::params::sendmail_path
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -168,7 +169,7 @@ class postfix::server (
   } else {
     $package_name = $postfix_package
   }
-  package { $package_name: ensure => installed, alias => 'postfix' }
+  package { $package_name: ensure => $postfix_package_ensure, alias => 'postfix' }
 
   service { 'postfix':
     require   => Package[$package_name],
