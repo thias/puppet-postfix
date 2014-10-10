@@ -926,3 +926,9 @@ postscreen_dnsbl_action = <%= @postscreen_dnsbl_action %>
 <% end -%>
 
 <% end -%>
+
+<% if @milters -%>
+smtpd_milters = <%= @milters %>
+non_smtpd_milters = <%= @milters %>
+milter_default_action = accept
+<% end -%>
