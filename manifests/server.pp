@@ -104,6 +104,8 @@ class postfix::server (
   # Other files
   $header_checks = [],
   $body_checks = [],
+  $files    = undef,
+  $dbfiles  = undef,
   # Postscreen - available in Postfix 2.8 and later
   $postscreen                  = false,
   $postscreen_access_list      = ['permit_mynetworks'],
@@ -245,6 +247,14 @@ class postfix::server (
     content    => template('postfix/body_checks.erb'),
     group      => $root_group,
     postfixdir => $config_directory,
+  }
+
+  if $files {
+    create_resources('::postfix::file', $files)
+  }
+
+  if $dbfiles {
+    create_resources('::postfix::dbfile', $dbfiles)
   }
 
 }
