@@ -80,7 +80,9 @@ class postfix::server (
   $smtp_sasl_tls = false,
   $smtp_use_tls = false,
   $canonical_maps = false,
+  $canonical_maps = false,
   $sender_canonical_maps = false,
+  $smtp_generic_maps = false,
   $relocated_maps = false,
   $extra_main_parameters = {},
   # master.cf
