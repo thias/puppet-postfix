@@ -104,6 +104,7 @@ class postfix::server (
   # Other files
   $header_checks = [],
   $body_checks = [],
+  $check_recipient_access = [],
   # Postscreen - available in Postfix 2.8 and later
   $postscreen                  = false,
   $postscreen_access_list      = ['permit_mynetworks'],
@@ -243,6 +244,13 @@ class postfix::server (
   # Regex body_checks
   postfix::file { 'body_checks':
     content    => template('postfix/body_checks.erb'),
+    group      => $root_group,
+    postfixdir => $config_directory,
+  }
+
+  # Regex check_recipient_access
+  postfix::file { 'check_recipient_access':
+    content    => template('postfix/check_recipient_access.erb'),
     group      => $root_group,
     postfixdir => $config_directory,
   }
