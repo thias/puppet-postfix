@@ -917,6 +917,10 @@ canonical_maps = <%= @canonical_maps %>
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if @smtp_generic_maps -%>
+smtp_generic_maps = <%= @smtp_generic_maps %>
+
+<% end -%>
 <% if ! @extra_main_parameters.empty? -%>
 # Parameters set using 'extra_main_parameters'
 <% @extra_main_parameters.sort_by {|key,value| key}.each do |key,value| -%>

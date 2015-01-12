@@ -926,6 +926,10 @@ canonical_maps = <%= @canonical_maps %>
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if @smtp_generic_maps -%>
+smtp_generic_maps = <%= @smtp_generic_maps %>
+
+<% end -%>
 <% if @postscreen -%>
 # Postscreen configuration
 postscreen_access_list =
