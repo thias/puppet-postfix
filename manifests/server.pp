@@ -85,7 +85,7 @@ class postfix::server (
   $extra_main_parameters = {},
   # master.cf
   $smtp_content_filter = [],
-  $smtps_content_filter = $smtp_content_filter,
+  $smtps_content_filter = [],
   $submission = false,
   # EL5
   $submission_smtpd_enforce_tls = 'yes',
