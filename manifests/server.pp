@@ -258,7 +258,7 @@ class postfix::server (
 
   # Regex virtual_regex
   postfix::file { 'virtual_regex':
-    content    => template('postfix/virtual-regex.erb'),
+    content    => template('postfix/virtual_regex.erb'),
     group      => $root_group,
     postfixdir => $config_directory,
   }
