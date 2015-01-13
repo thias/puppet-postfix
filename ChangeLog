@@ -2,6 +2,8 @@
 * Cosmetic cleanups to main.cf templates.
 * Fix ordering of postfix::file resources (#18).
 * Fix wrong smtps_content_filter parameter default (#32, @gwarf).
+* Add support for smtp_generic_maps (#53, @KlavsKlavsen).
+* Fix spampd options (#46, @chihoko).
 
 2014-05-12 - 0.3.3
 * Add Debian support for spampd (#26, @timogoebel).
