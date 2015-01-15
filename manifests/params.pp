@@ -11,6 +11,7 @@ class postfix::params {
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/libexec/postfix'
+      $default_privs = 'nobody'
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = "/usr/share/doc/postfix-${postfix_version}/README_FILES"
@@ -36,6 +37,7 @@ class postfix::params {
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/lib/postfix'
+      $default_privs = 'nobody'
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = '/usr/share/doc/postfix'
@@ -61,6 +63,7 @@ class postfix::params {
       $command_directory = '/usr/local/sbin'
       $config_directory = '/usr/local/etc/postfix'
       $daemon_directory = '/usr/local/libexec/postfix'
+      $default_privs = 'nobody'
       $data_directory = '/var/db/postfix'
       $manpage_directory = '/usr/local/man'
       $readme_directory = '/usr/local/share/doc/postfix'
