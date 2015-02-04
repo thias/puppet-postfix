@@ -239,6 +239,7 @@ class postfix::server (
     content    => template('postfix/header_checks.erb'),
     group      => $root_group,
     postfixdir => $config_directory,
+    require    => Package[$package_name],
   }
 
   # Regex body_checks
@@ -246,6 +247,7 @@ class postfix::server (
     content    => template('postfix/body_checks.erb'),
     group      => $root_group,
     postfixdir => $config_directory,
+    require    => Package[$package_name],
   }
 
 }
