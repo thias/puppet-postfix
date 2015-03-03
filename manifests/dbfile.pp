@@ -13,6 +13,8 @@
 #    The dbfile content, typically from a template. Default: none
 #  $source:
 #    The dbfile source file. Default: none
+#  $type:
+#    The dbfile type file. Default: none (Use: hash, pcre, cdb, dbm, btree)
 #  $ensure:
 #    The dbfile's presence. Use 'absent' to remove it. Default: present
 #
@@ -28,9 +30,20 @@ define postfix::dbfile (
   $mode       = '0644',
   $content    = undef,
   $source     = undef,
+  $type       = undef,
   $ensure     = undef,
   $postmap    = $::postfix::params::postmap
 ) {
+
+  $extension = $type ? {
+    'cdb'           => 'cdb',
+    'pcre'          => 'pcre',
+    'dbm'           => 'pag',
+    /(btree|hash)/  => 'db',
+    default         => 'db',
+  }
+
+  
 
   file { "${postfixdir}/${title}":
     owner   => $owner,
@@ -43,11 +56,11 @@ define postfix::dbfile (
 
   if $ensure == 'absent' {
 
-    file { "${postfixdir}/${title}.db": ensure => absent }
+    file { "${postfixdir}/${title}.${$extension}": ensure => absent }
 
   } else {
 
-    exec { "${postmap} ${title}":
+    exec { "${postmap} ${type}:${title}":
       cwd         => $postfixdir,
       subscribe   => File["${postfixdir}/${title}"],
       refreshonly => true,
