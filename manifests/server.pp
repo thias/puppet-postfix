@@ -98,8 +98,8 @@ class postfix::server (
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
   # smtps should allow unauthenticated delivery (for local or relay_domains for
-  # example) so no explicit reject. smtps port 465 is non-standards compliant 
-  # anyway so no one true answer. 
+  # example) so no explicit reject. smtps port 465 is non-standards compliant
+  # anyway so no one true answer.
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
@@ -173,9 +173,9 @@ class postfix::server (
   package { $package_name: ensure => $postfix_package_ensure, alias => 'postfix' }
 
   service { 'postfix':
+    ensure    => running,
     require   => Package[$package_name],
     enable    => true,
-    ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
   }
@@ -197,9 +197,9 @@ class postfix::server (
     package { [ $spamassassin_package, $spampd_package ]: ensure => installed }
     # Note that we don't want the normal spamassassin (spamd) service
     service { 'spampd':
+      ensure    => running,
       require   => Package[$spampd_package],
       enable    => true,
-      ensure    => running,
       hasstatus => true,
     }
     # Override the options passed to spampd
@@ -220,9 +220,9 @@ class postfix::server (
     # Main package and service it provides
     package { $postgrey_package: ensure => installed }
     service { 'postgrey':
+      ensure    => running,
       require   => Package[$postgrey_package],
       enable    => true,
-      ensure    => running,
       # When stopped, status returns zero with 1.31-1.el5
       hasstatus => false,
     }
