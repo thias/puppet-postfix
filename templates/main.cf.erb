@@ -934,6 +934,11 @@ canonical_maps = <%= @canonical_maps %>
 sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
+<% if @recipient_canonical_maps -%>
+recipient_canonical_maps = <%= @recipient_canonical_maps %>
+
+<% end -%>
+
 <% if @smtp_generic_maps -%>
 smtp_generic_maps = <%= @smtp_generic_maps %>
 
