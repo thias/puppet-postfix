@@ -20,14 +20,14 @@ smtpd     pass  -       -       n       -       -       smtpd
   -o content_filter=<%= content_filter %>
 <% end -%>
 <% if @submission -%>
-<% if @smtpd_listen -%><%= @smtpd_listen %>:<% end -%>smtpsubmission inet n       -       n       -       -       smtpd
+<% if @smtpd_listen -%><%= @smtpd_listen %>:<% end -%>submission inet n       -       n       -       -       smtpd
   -o smtpd_tls_security_level=<%= @submission_smtpd_tls_security_level %>
   -o smtpd_sasl_auth_enable=<%= @submission_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @submission_smtpd_client_restrictions %>
   -o milter_macro_daemon_name=ORIGINATING
 <% end -%>
 <% if @ssl -%>
-<% if @smtpd_listen -%><%= @smtpd_listen %>:<% end -%>smtpsmtps     inet  n       -       n       -       -       smtpd
+<% if @smtpd_listen -%><%= @smtpd_listen %>:<% end -%>smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=<%= @smtps_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @smtps_smtpd_client_restrictions %>
