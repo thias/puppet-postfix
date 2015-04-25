@@ -50,6 +50,7 @@ class postfix::server (
   $dovecot_destination = '${recipient}',
   $masquerade_classes = false,
   $masquerade_domains = false,
+  $smtpd_listen = false,
   $smtpd_helo_required = false,
   $smtpd_client_restrictions = [],
   $smtpd_helo_restrictions = [],
