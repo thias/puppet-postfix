@@ -281,8 +281,11 @@ mynetworks_style = <%= @mynetworks_style %>
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
-<% if @mynetworks -%>
+<% if @mynetworks and @mynetworks.is_a?(String) -%>
 mynetworks = <%= @mynetworks %>
+<% end -%>
+<% if @mynetworks and @mynetworks.is_a?(Array) -%>
+mynetworks = <%= @mynetworks.join(', ') %>
 <% end -%>
 
 # The relay_domains parameter restricts what destinations this system will
@@ -806,6 +809,11 @@ smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
 mail_name = <%= @mail_name %>
 
 <% end -%>
+<% if @mailbox_size_limit -%>
+# Mailbox size limit
+mailbox_size_limit = <%= @mailbox_size_limit %>
+
+<% end -%>
 <% if @message_size_limit -%>
 # Message size limit
 message_size_limit = <%= @message_size_limit %>
@@ -924,6 +932,10 @@ canonical_maps = <%= @canonical_maps %>
 <% end -%>
 <% if @sender_canonical_maps -%>
 sender_canonical_maps = <%= @sender_canonical_maps %>
+
+<% end -%>
+<% if @smtp_generic_maps -%>
+smtp_generic_maps = <%= @smtp_generic_maps %>
 
 <% end -%>
 <% if @postscreen -%>
