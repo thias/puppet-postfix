@@ -758,6 +758,11 @@ tls_append_default_CA = yes
 <% end -%>
 
 <% end -%>
+
+<% if @import_environment -%>
+import_environment = <%= @import_environment %>
+<% end -%>
+
 <% if @smtpd_sasl_auth -%>
 # Auth against external daemon (usually dovecot or cyrus)
 smtpd_sasl_auth_enable = yes
