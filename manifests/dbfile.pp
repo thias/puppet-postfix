@@ -39,6 +39,7 @@ define postfix::dbfile (
     content => $content,
     source  => $source,
     ensure  => $ensure,
+    require => Package[$::postfix::params::postfix_package],
   }
 
   if $ensure == 'absent' {
@@ -49,6 +50,7 @@ define postfix::dbfile (
 
     exec { "${postmap} ${title}":
       cwd         => $postfixdir,
+      notify      => Service['postfix'],
       subscribe   => File["${postfixdir}/${title}"],
       refreshonly => true,
       # No need to notify the service, since it detects changed files
