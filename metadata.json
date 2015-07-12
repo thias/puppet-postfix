@@ -48,5 +48,7 @@
       ]
     }
   ],
-  "description": "Postfix Mail Transport Agent module"
+  "dependencies": [
+    
+  ]
 }
