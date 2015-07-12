@@ -25,27 +25,11 @@
       ]
     },
     {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "5",
-        "6",
-        "7"
-      ]
-    },
-    {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "5",
         "6",
         "7"
-      ]
-    },
-    {
-      "operatingsystem": "SLES",
-      "operatingsystemrelease": [
-        "10 SP4",
-        "11 SP1",
-        "12"
       ]
     },
     {
@@ -63,5 +47,6 @@
         "14.04"
       ]
     }
-  ]
+  ],
+  "description": "Postfix Mail Transport Agent module"
 }
