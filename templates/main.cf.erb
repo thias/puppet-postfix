@@ -118,7 +118,12 @@ myorigin = <%= @myorigin %>
 #inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
+<% if @inet_interfaces and @inet_interfaces.is_a?(String) -%>
 inet_interfaces = <%= @inet_interfaces %>
+<% end -%>
+<% if @inet_interfaces and @inet_interfaces.is_a?(Array) -%>
+inet_interfaces = <%= @inet_interfaces.join(', ') %>
+<% end -%>
 
 # Enable IPv4, and IPv6 if supported
 inet_protocols = <%= @inet_protocols %>
