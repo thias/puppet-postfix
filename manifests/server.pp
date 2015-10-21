@@ -136,6 +136,7 @@ class postfix::server (
   $postgrey_policy_service = undef,
   $clamav                  = false,
   # Parameters
+  $queue_directory        = $::postfix::params::queue_directory,
   $command_directory      = $::postfix::params::command_directory,
   $config_directory       = $::postfix::params::config_directory,
   $daemon_directory       = $::postfix::params::daemon_directory,

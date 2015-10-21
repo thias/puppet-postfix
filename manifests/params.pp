@@ -8,6 +8,7 @@ class postfix::params {
         '5'     => '2.3.3',
         default => '2.6.6',
       }
+      $queue_directory = '/var/spool/postfix'
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/libexec/postfix'
