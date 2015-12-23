@@ -128,6 +128,15 @@ inet_interfaces = <%= @inet_interfaces.join(', ') %>
 # Enable IPv4, and IPv6 if supported
 inet_protocols = <%= @inet_protocols %>
 
+# Selectively disable master(8) listener ports by service type or
+# by service name and type. Specify a list of service types ("inet",
+# "unix", "fifo", or "pass") or "name/type" tuples, where "name"
+# is the first field of a master.cf entry and "type" is a service type.
+
+<% if @master_service_disable -%>
+master_service_disable = <%= @master_service_disable %>
+<% end -%>
+
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
 # proxy or network address translation unit. This setting extends

@@ -16,6 +16,7 @@ class postfix::server (
   $myorigin = '$myhostname',
   $inet_interfaces = 'localhost',
   $inet_protocols = 'all',
+  $master_service_disable = false,
   $proxy_interfaces = false,
   $mydestination = '$myhostname, localhost.$mydomain, localhost',
   $local_recipient_maps = false,
