@@ -25,6 +25,7 @@
 #
 define postfix::file (
   $postfixdir = '/etc/postfix',
+  $filename   = undef,
   $owner      = 'root',
   $group      = 'root',
   $mode       = '0644',
@@ -35,7 +36,12 @@ define postfix::file (
 
   include '::postfix::params'
 
-  file { "${postfixdir}/${title}":
+  $real_filename = $filename ? {
+    undef    => "${postfixdir}/${title}",
+    default  => "${postfixdir}/${filename}",
+  }
+
+  file { $real_filename:
     ensure  => $ensure,
     owner   => $owner,
     group   => $group,

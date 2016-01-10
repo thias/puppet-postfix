@@ -28,7 +28,7 @@
 # See the files in examples/chroot-setup for setting up Postfix chroot
 # environments on different UNIX systems.
 #
-queue_directory = /var/spool/postfix
+queue_directory = <%= @queue_directory_instance %>
 
 # The command_directory parameter specifies the location of all
 # postXXX commands.
@@ -45,7 +45,7 @@ daemon_directory = <%= @daemon_directory %>
 # data files (caches, random numbers). This directory must be owned
 # by the mail_owner account (see below).
 #
-data_directory = <%= @data_directory %>
+data_directory = <%= @data_directory_instance %>
 
 # QUEUE AND PROCESS OWNERSHIP
 #
@@ -979,3 +979,9 @@ postscreen_dnsbl_action = <%= @postscreen_dnsbl_action %>
 <% end -%>
 
 <% end -%>
+
+# Simulates postmulti -e init
+multi_instance_name = <%= @instance %>
+multi_instance_wrapper = ${command_directory}/postmulti -p --
+multi_instance_enable = yes
+multi_instance_directories = <%= Pathname.glob("/etc/postfix-*/main.cf").map { |i| i.dirname }.join(" ") %>

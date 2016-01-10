@@ -9,9 +9,8 @@ class postfix::params {
         default => '2.6.6',
       }
       $command_directory = '/usr/sbin'
-      $config_directory = '/etc/postfix'
+      $config_directory = '/etc'
       $daemon_directory = '/usr/libexec/postfix'
-      $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = "/usr/share/doc/postfix-${postfix_version}/README_FILES"
       $sample_directory = "/usr/share/doc/postfix-${postfix_version}/samples"
@@ -31,12 +30,13 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $queue_directory = '/var/spool/'
+      $data_directory = '/var/lib/'
     }
     'Debian': {
       $command_directory = '/usr/sbin'
-      $config_directory = '/etc/postfix'
+      $config_directory = '/etc'
       $daemon_directory = '/usr/lib/postfix'
-      $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = '/usr/share/doc/postfix'
       $sample_directory = '/usr/share/doc/postfix/examples'
@@ -56,12 +56,13 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $queue_directory = '/var/spool/'
+      $data_directory = '/var/lib/'
     }
     'FreeBSD': {
       $command_directory = '/usr/local/sbin'
-      $config_directory = '/usr/local/etc/postfix'
+      $config_directory = '/usr/local/etc'
       $daemon_directory = '/usr/local/libexec/postfix'
-      $data_directory = '/var/db/postfix'
       $manpage_directory = '/usr/local/man'
       $readme_directory = '/usr/local/share/doc/postfix'
       $sample_directory = '/usr/local/etc/postfix'
@@ -81,6 +82,8 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
+      $queue_directory = '/var/spool/'
+      $data_directory = '/var/db/'
     }
     default: {
       fail("Unsupported OS family ${::osfamily}")
