@@ -613,7 +613,7 @@ mailbox_command = <%= @mailbox_command %>
 #
 # For details, see "man header_checks".
 #
-header_checks = regexp:<%= @config_directory %>/header_checks
+header_checks = regexp:<%= @postfixdir %>/header_checks
 
 # FAST ETRN SERVICE
 #
@@ -938,7 +938,7 @@ smtpd_end_of_data_restrictions =
 <% end -%>
 
 <% end -%>
-body_checks = regexp:<%= @config_directory %>/body_checks
+body_checks = regexp:<%= @postfixdir %>/body_checks
 
 <% if @canonical_maps -%>
 canonical_maps = <%= @canonical_maps %>

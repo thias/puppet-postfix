@@ -157,6 +157,7 @@ class postfix::server (
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
   $sendmail_path          = $::postfix::params::sendmail_path
+  $mastercf               = undef,
 ) inherits ::postfix::params {
 
 #  notify { "Hale kamo $mysql nebo $postfix_mysql_package": }
@@ -268,18 +269,6 @@ class postfix::server (
     postscreen_dnsbl_reply_map           => $postscreen_dnsbl_reply_map,
     postscreen_dnsbl_threshold           => $postscreen_dnsbl_threshold,
     postscreen_dnsbl_action              => $postscreen_dnsbl_action,
-#    spamassassin                         => $spamassassin,
-#    sa_required_hits                     => $sa_required_hits,
-#    sa_report_safe                       => $sa_report_safe,
-#    sa_rewrite_header                    => $sa_rewrite_header,
-#    sa_trusted_networks                  => $sa_trusted_networks,
-#    sa_skip_rbl_checks                   => $sa_skip_rbl_checks,
-#    sa_loadplugin                        => $sa_loadplugin,
-#    sa_score                             => $sa_score,
-#    spampd_port                          => $spampd_port,
-#    spampd_relayport                     => $spampd_relayport,
-#    spampd_children                      => $spampd_children,
-#    spampd_maxsize                       => $spampd_maxsize,
     postgrey                             => $postgrey,
     postgrey_policy_service              => $postgrey_policy_service,
     clamav                               => $clamav,
@@ -294,14 +283,11 @@ class postfix::server (
     postfix_package_ensure               => $postfix_package_ensure,
     postgrey_package                     => $postgrey_package,
     service_restart                      => $service_restart,
-#    spamassassin_package                 => $spamassassin_package,
-#    spampd_package                       => $spampd_package,
-#    spampd_config                        => $spampd_config,
-#    spampd_template                      => $spampd_template,
     root_group                           => $root_group,
     mailq_path                           => $mailq_path,
     newaliases_path                      => $newaliases_path,
     sendmail_path                        => $sendmail_path,
+    masterfs                             => $mastercf,
   }
 
 }

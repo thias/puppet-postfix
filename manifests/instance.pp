@@ -138,12 +138,14 @@ define postfix::instance (
   $newaliases_path        = $::postfix::params::newaliases_path,
   $sendmail_path          = $::postfix::params::sendmail_path,
   $queue_directory        = $::postfix::params::queue_directory,
+  $mastercf               = undef,
 ) {
 
     $instance = $title ? {
         'default' => 'postfix',
         default => "postfix-${title}"
     }
+    $postfixdir = "${config_directory}/${instance}"
 
     # Create instance
 
@@ -165,7 +167,7 @@ define postfix::instance (
     # Dynamic maps - symlink to default postfix instance
 
     if ($title != 'default') {
-        file { "${config_directory}/${instance}/dynamicmaps.cf":
+        file { "${postfixdir}/dynamicmaps.cf":
             ensure => link,
             target => "${config_directory}/postfix/dynamicmaps.cf",
             require => Postfix::Instances::Create[$instance],
@@ -174,15 +176,23 @@ define postfix::instance (
 
     # Master config
 
-    file { "${config_directory}/${instance}/master.cf":
-        content => template("postfix/master.cf${filesuffix}.erb"),
-        notify  => Service['postfix'],
-        require => Postfix::Instances::Create[$instance],
+    if ($mastercf == undef) {
+        file { "${postfixdir}/master.cf":
+            content => template("postfix/master.cf${filesuffix}.erb"),
+            notify  => Service['postfix'],
+            require => Postfix::Instances::Create[$instance],
+        }
+    } else {
+        file { "${postfixdir}/master.cf":
+            content => template('postfix/master.cf-new.erb'),
+            notify  => Service['postfix'],
+            require => Postfix::Instances::Create[$instance],
+        }
     }
 
     # Main config
 
-    file { "${config_directory}/${instance}/main.cf":
+    file { "${postfixdir}/main.cf":
         content => template("postfix/main.cf${filesuffix}.erb"),
         notify  => Service['postfix'],
         require => Postfix::Instances::Create[$instance],
@@ -207,20 +217,21 @@ define postfix::instance (
 #    include '::clamav::smtp'
 #  }
 #
-#  # Regex header_checks
-#  postfix::file { "${instance}-header_checks":
-#    filename   => 'header_checks',
-#    content    => template('postfix/header_checks.erb'),
-#    group      => $root_group,
-#    postfixdir => "${config_directory}/${instance}",
-#  }
-#
-#  # Regex body_checks
-#  postfix::file { "${instance}-body_checks":
-#    filename   => 'body_checks',
-#    content    => template('postfix/body_checks.erb'),
-#    group      => $root_group,
-#    postfixdir => "${config_directory}/${instance}",
-#  }
+
+    # Regex header_checks
+    postfix::file { "${instance}-header_checks":
+        filename   => 'header_checks',
+        content    => template('postfix/header_checks.erb'),
+        group      => $root_group,
+        postfixdir => "${postfixdir}",
+    }
+
+    # Regex body_checks
+    postfix::file { "${instance}-body_checks":
+        filename   => 'body_checks',
+        content    => template('postfix/body_checks.erb'),
+        group      => $root_group,
+        postfixdir => "${postfixdir}",
+    }
 
 }
