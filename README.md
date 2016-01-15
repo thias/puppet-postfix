@@ -8,7 +8,7 @@ Feel free to send me a pull request or just open an issue if you need to update 
 
 Manage multiple postfix instances.
 
-This plusing is extended version of https://github.com/thias/puppet-postfix. It is backwards compatible!
+This plugin is extended version of https://github.com/thias/puppet-postfix and it is backwards compatible!
 
 ## Original plugin usage example
 
@@ -87,7 +87,7 @@ class { '::postfix::server':
 
 ## Mutli-instance example
 
-```
+```puppet
 include ::postfix::params
 
 class { '::postfix::install':
