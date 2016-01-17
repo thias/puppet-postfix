@@ -16,6 +16,7 @@ class postfix::server (
   $myorigin = '$myhostname',
   $inet_interfaces = 'localhost',
   $inet_protocols = 'all',
+  $master_service_disable = false,
   $proxy_interfaces = false,
   $mydestination = '$myhostname, localhost.$mydomain, localhost',
   $local_recipient_maps = false,
@@ -156,98 +157,137 @@ class postfix::server (
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
   $sendmail_path          = $::postfix::params::sendmail_path
+  $mastercf               = undef,
 ) inherits ::postfix::params {
 
-  # Default has el5 files, for el6 a few defaults have changed
-  if ( $::operatingsystem =~ /RedHat|CentOS/ and versioncmp($::operatingsystemrelease, '6') < 0 ) {
-    $filesuffix = '-el5'
-  } else {
-    $filesuffix = ''
+#  notify { "Hale kamo $mysql nebo $postfix_mysql_package": }
+
+  class { '::postfix::install':
+    mysql                  => $mysql,
+    postfix_package        => $postfix_package,
+    postfix_mysql_package  => $postfix_mysql_package,
+    postfix_package_ensure => $postfix_package_ensure,
+    service_restart        => $service_restart,
   }
 
-  # Main package and service it provides
-  if $mysql {
-    $package_name = $postfix_mysql_package
-  } else {
-    $package_name = $postfix_package
-  }
-  package { $package_name: ensure => $postfix_package_ensure, alias => 'postfix' }
-
-  service { 'postfix':
-    require   => Package[$package_name],
-    enable    => true,
-    ensure    => running,
-    hasstatus => true,
-    restart   => $service_restart,
-  }
-
-  file { "${config_directory}/master.cf":
-    content => template("postfix/master.cf${filesuffix}.erb"),
-    notify  => Service['postfix'],
-    require => Package[$package_name],
-  }
-  file { "${config_directory}/main.cf":
-    content => template("postfix/main.cf${filesuffix}.erb"),
-    notify  => Service['postfix'],
-    require => Package[$package_name],
-  }
-
-  # Optional Spamassassin setup (using spampd)
-  if $spamassassin {
-    # Main packages and service they provide
-    package { [ $spamassassin_package, $spampd_package ]: ensure => installed }
-    # Note that we don't want the normal spamassassin (spamd) service
-    service { 'spampd':
-      require   => Package[$spampd_package],
-      enable    => true,
-      ensure    => running,
-      hasstatus => true,
-    }
-    # Override the options passed to spampd
-    file { $spampd_config:
-      content => template($spampd_template),
-      notify  => Service['spampd'],
-    }
-    # Change the spamassassin options
-    file { '/etc/mail/spamassassin/local.cf':
-      require => Package[$spamassassin_package],
-      content => template('postfix/spamassassin-local.cf.erb'),
-      notify  => Service['spampd'],
-    }
-  }
-
-  # Optional Postgrey setup
-  if $postgrey {
-    # Main package and service it provides
-    package { $postgrey_package: ensure => installed }
-    service { 'postgrey':
-      require   => Package[$postgrey_package],
-      enable    => true,
-      ensure    => running,
-      # When stopped, status returns zero with 1.31-1.el5
-      hasstatus => false,
-    }
-  }
-
-  # Optional ClamAV setup (using clamsmtp)
-  # Defaults to listen on 10025 and re-send on 10026
-  if $clamav {
-    include '::clamav::smtp'
-  }
-
-  # Regex header_checks
-  postfix::file { 'header_checks':
-    content    => template('postfix/header_checks.erb'),
-    group      => $root_group,
-    postfixdir => $config_directory,
-  }
-
-  # Regex body_checks
-  postfix::file { 'body_checks':
-    content    => template('postfix/body_checks.erb'),
-    group      => $root_group,
-    postfixdir => $config_directory,
+  postfix::instance { 'postfix':
+    myhostname                           => $myhostname,
+    mydomain                             => $mydomain,
+    myorigin                             => $myorigin,
+    inet_interfaces                      => $inet_interfaces,
+    inet_protocols                       => $inet_protocols,
+    master_service_disable               => $master_service_disable,
+    proxy_interfaces                     => $proxy_interfaces,
+    mydestination                        => $mydestination,
+    local_recipient_maps                 => $local_recipient_maps,
+    luser_relay                          => $luser_relay,
+    unknown_local_recipient_reject_code  => $unknown_local_recipient_reject_code,
+    mynetworks_style                     => $mynetworks_style,
+    mynetworks                           => $mynetworks,
+    relay_domains                        => $relay_domains,
+    relayhost                            => $relayhost,
+    relay_recipient_maps                 => $relay_recipient_maps,
+    transport_maps                       => $transport_maps,
+    in_flow_delay                        => $in_flow_delay,
+    alias_maps                           => $alias_maps,
+    alias_database                       => $alias_database,
+    recipient_delimiter                  => $recipient_delimiter,
+    home_mailbox                         => $home_mailbox,
+    mail_spool_directory                 => $mail_spool_directory,
+    mailbox_command                      => $mailbox_command,
+    smtpd_banner                         => $smtpd_banner,
+    setgid_group                         => $setgid_group,
+    mailbox_size_limit                   => $mailbox_size_limit,
+    message_size_limit                   => $message_size_limit,
+    mail_name                            => $mail_name,
+    virtual_alias_domains                => $virtual_alias_domains,
+    virtual_alias_maps                   => $virtual_alias_maps,
+    virtual_mailbox_domains              => $virtual_mailbox_domains,
+    virtual_mailbox_maps                 => $virtual_mailbox_maps,
+    virtual_mailbox_base                 => $virtual_mailbox_base,
+    virtual_uid_maps                     => $virtual_uid_maps,
+    virtual_gid_maps                     => $virtual_gid_maps,
+    virtual_transport                    => $virtual_transport,
+    dovecot_destination                  => $dovecot_destination,
+    masquerade_classes                   => $masquerade_classes,
+    masquerade_domains                   => $masquerade_domains,
+    smtpd_helo_required                  => $smtpd_helo_required,
+    smtpd_client_restrictions            => $smtpd_client_restrictions,
+    smtpd_helo_restrictions              => $smtpd_helo_restrictions,
+    smtpd_sender_restrictions            => $smtpd_sender_restrictions,
+    smtpd_recipient_restrictions         => $smtpd_recipient_restrictions,
+    smtpd_data_restrictions              => $smtpd_data_restrictions,
+    smtpd_end_of_data_restrictions       => $smtpd_end_of_data_restrictions,
+    smtpd_delay_reject                   => $smtpd_delay_reject,
+    ssl                                  => $ssl,
+    smtpd_tls_key_file                   => $smtpd_tls_key_file,
+    smtpd_tls_cert_file                  => $smtpd_tls_cert_file,
+    smtpd_tls_CAfile                     => $smtpd_tls_CAfile,
+    smtpd_sasl_auth                      => $smtpd_sasl_auth,
+    smtpd_sasl_type                      => $smtpd_sasl_type,
+    smtpd_sasl_path                      => $smtpd_sasl_path,
+    smtp_sasl_auth                       => $smtp_sasl_auth,
+    smtp_sasl_password_maps              => $smtp_sasl_password_maps,
+    smtp_sasl_security_options           => $smtp_sasl_security_options,
+    smtp_tls_CAfile                      => $smtp_tls_CAfile,
+    smtp_tls_CApath                      => $smtp_tls_CApath,
+    smtp_tls_key_file                    => $smtp_tls_key_file,
+    smtp_tls_cert_file                   => $smtp_tls_cert_file,
+    smtp_tls_security_level              => $smtp_tls_security_level,
+    smtp_tls_secure_cert_match           => $smtp_tls_secure_cert_match,
+    smtp_tls_note_starttls_offer         => $smtp_tls_note_starttls_offer,
+    smtp_tls_mandatory_ciphers           => $smtp_tls_mandatory_ciphers,
+    smtpd_tls_ask_ccert                  => $smtpd_tls_ask_ccert,
+    tls_append_default_CA                => $tls_append_default_CA,
+    smtp_sasl_tls                        => $smtp_sasl_tls,
+    smtp_use_tls                         => $smtp_use_tls,
+    canonical_maps                       => $canonical_maps,
+    sender_canonical_maps                => $sender_canonical_maps,
+    smtp_generic_maps                    => $smtp_generic_maps,
+    relocated_maps                       => $relocated_maps,
+    extra_main_parameters                => $extra_main_parameters,
+    smtp_content_filter                  => $smtp_content_filter,
+    smtps_content_filter                 => $smtps_content_filter,
+    submission                           => $submission,
+    submission_smtpd_enforce_tls         => $submission_smtpd_enforce_tls,
+    submission_smtpd_tls_security_level  => $submission_smtpd_tls_security_level,
+    submission_smtpd_sasl_auth_enable    => $submission_smtpd_sasl_auth_enable,
+    smtps_smtpd_sasl_auth_enable         => $smtps_smtpd_sasl_auth_enable,
+    submission_smtpd_client_restrictions => $submission_smtpd_client_restrictions,
+    smtps_smtpd_client_restrictions      => $smtps_smtpd_client_restrictions,
+    master_services                      => $master_services,
+    header_checks                        => $header_checks,
+    body_checks                          => $body_checks,
+    postscreen                           => $postscreen,
+    postscreen_access_list               => $postscreen_access_list,
+    postscreen_blacklist_action          => $postscreen_blacklist_action,
+    postscreen_cache_map                 => $postscreen_cache_map,
+    postscreen_greet_wait                => $postscreen_greet_wait,
+    postscreen_greet_banner              => $postscreen_greet_banner,
+    postscreen_greet_action              => $postscreen_greet_action,
+    postscreen_dnsbl_sites               => $postscreen_dnsbl_sites,
+    postscreen_dnsbl_reply_map           => $postscreen_dnsbl_reply_map,
+    postscreen_dnsbl_threshold           => $postscreen_dnsbl_threshold,
+    postscreen_dnsbl_action              => $postscreen_dnsbl_action,
+    postgrey                             => $postgrey,
+    postgrey_policy_service              => $postgrey_policy_service,
+    clamav                               => $clamav,
+    command_directory                    => $command_directory,
+    config_directory                     => $config_directory,
+    daemon_directory                     => $daemon_directory,
+    data_directory                       => $data_directory,
+    manpage_directory                    => $manpage_directory,
+    readme_directory                     => $readme_directory,
+    sample_directory                     => $sample_directory,
+    postfix_package                      => $postfix_package,
+    postfix_package_ensure               => $postfix_package_ensure,
+    postgrey_package                     => $postgrey_package,
+    service_restart                      => $service_restart,
+    root_group                           => $root_group,
+    mailq_path                           => $mailq_path,
+    newaliases_path                      => $newaliases_path,
+    sendmail_path                        => $sendmail_path,
+    masterfs                             => $mastercf,
   }
 
 }
-

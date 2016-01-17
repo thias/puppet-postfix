@@ -28,7 +28,7 @@
 # See the files in examples/chroot-setup for setting up Postfix chroot
 # environments on different UNIX systems.
 #
-queue_directory = /var/spool/postfix
+queue_directory = <%= @queue_directory_instance %>
 
 # The command_directory parameter specifies the location of all
 # postXXX commands.
@@ -45,7 +45,7 @@ daemon_directory = <%= @daemon_directory %>
 # data files (caches, random numbers). This directory must be owned
 # by the mail_owner account (see below).
 #
-data_directory = <%= @data_directory %>
+data_directory = <%= @data_directory_instance %>
 
 # QUEUE AND PROCESS OWNERSHIP
 #
@@ -127,6 +127,15 @@ inet_interfaces = <%= @inet_interfaces.join(', ') %>
 
 # Enable IPv4, and IPv6 if supported
 inet_protocols = <%= @inet_protocols %>
+
+# Selectively disable master(8) listener ports by service type or
+# by service name and type. Specify a list of service types ("inet",
+# "unix", "fifo", or "pass") or "name/type" tuples, where "name"
+# is the first field of a master.cf entry and "type" is a service type.
+
+<% if @master_service_disable -%>
+master_service_disable = <%= @master_service_disable %>
+<% end -%>
 
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
@@ -604,7 +613,7 @@ mailbox_command = <%= @mailbox_command %>
 #
 # For details, see "man header_checks".
 #
-header_checks = regexp:<%= @config_directory %>/header_checks
+header_checks = regexp:<%= @postfixdir %>/header_checks
 
 # FAST ETRN SERVICE
 #
@@ -929,7 +938,7 @@ smtpd_end_of_data_restrictions =
 <% end -%>
 
 <% end -%>
-body_checks = regexp:<%= @config_directory %>/body_checks
+body_checks = regexp:<%= @postfixdir %>/body_checks
 
 <% if @canonical_maps -%>
 canonical_maps = <%= @canonical_maps %>
@@ -970,3 +979,9 @@ postscreen_dnsbl_action = <%= @postscreen_dnsbl_action %>
 <% end -%>
 
 <% end -%>
+
+# Simulates postmulti -e init
+multi_instance_name = <%= @instance %>
+multi_instance_wrapper = ${command_directory}/postmulti -p --
+multi_instance_enable = yes
+multi_instance_directories = <%= Pathname.glob("/etc/postfix-*/main.cf").map { |i| i.dirname }.join(" ") %>

@@ -28,7 +28,9 @@
 # See the files in examples/chroot-setup for setting up Postfix chroot
 # environments on different UNIX systems.
 #
-queue_directory = /var/spool/postfix
+queue_directory = <%= @queue_directory_instance %>
+
+data_directory = <%= @data_directory_instance %>
 
 # The command_directory parameter specifies the location of all
 # postXXX commands.

@@ -1,15 +1,20 @@
 # puppet-postfix
 
-## Overview
+## Initial though
 
-This module is meant for Red Hat Enterprise Linux, its clones and FreeBSD. It
-still requires some major clean up, but is currently fully functional.
+Feel free to send me a pull request or just open an issue if you need to update anything.
+
+## Goal
+
+Manage multiple postfix instances.
+
+This plugin is extended version of https://github.com/thias/puppet-postfix and it is backwards compatible!
+
+## Original plugin usage example
 
 * `postfix::dbfile` : Manage Postfix DB configuration files
 * `postfix::file` : Manage flat text Postfix configuration files
 * `postfix::server` : Manage the main Postfix instance
-
-## Examples
 
 ```puppet
 class { '::postfix::server':
@@ -62,8 +67,6 @@ class { '::postfix::server':
 }
 ```
 
-## Parameters for main.cf
-
 The most common parameters are supported as parameters to the `postfix::server`
 class, but any other ones may be added using the `$extra_main_parameters` hash
 parameter, to which keys are `main.cf` parameter names and values can be either
@@ -79,6 +82,60 @@ class { '::postfix::server':
     ],
     virtual_minimum_uid => '1000',
   },
+}
+```
+
+## Mutli-instance example
+
+```puppet
+include ::postfix::params
+
+class { '::postfix::install':
+    mysql => true,
+}
+
+# Default instance as a null-client
+
+postfix::instance { 'default':
+    myhostname             => $fqdn,
+    mydomain               => $fqdn,
+    myorigin               => $fqdn,
+    mydestination          => "$fqdn, localhost",
+    message_size_limit     => '15360000',
+    master_service_disable => 'inet',
+    # default_database_type = cdb
+    # indexed = ${default_database_type}:${config_directory}/
+}
+
+# Relay server using dovecot as a backend
+
+postfix::instance { 'out':
+    myhostname                   => $fqdn,
+    mydestination                => 'localhost',
+    message_size_limit           => '15360000',
+    smtpd_banner                 => '$myhostname ESMTP $mail_name (Debian/GNU)',
+    inet_interfaces              => 'all',
+    relayhost                    => '',
+    mynetworks                   => '127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128',
+    myorigin                     => $fqdn,
+    smtpd_sasl_type              => 'dovecot',
+    smtpd_sasl_path              => 'inet:127.0.0.1:10002',
+    smtpd_client_restrictions    => [ 'permit_sasl_authenticated', 'reject' ],
+    smtpd_recipient_restrictions => [ 'permit_sasl_authenticated', 'permit_mynetworks', 'reject_unauth_destination' ],
+    readme_directory             => 'no',
+    mailbox_size_limit           => '0',
+    recipient_delimiter          => '+',
+    extra_main_parameters        => {
+        biff                            => 'no',
+        broken_sasl_auth_clients        => 'yes',
+        smtpd_sasl_auth_enable          => 'yes',
+        smtpd_sasl_authenticated_header => 'yes',
+        smtpd_sasl_security_options     => 'noanonymous',
+        smtpd_sasl_local_domain         => '$myhostname',
+        append_dot_mydomain             => 'no',
+        master_service_disable          => '',
+        authorized_submit_users         => '',
+    }
 }
 ```
 

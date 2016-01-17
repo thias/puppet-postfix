@@ -1,0 +1,13 @@
+{
+  "name": "yarikdot-postfix",
+  "version": "0.4.0",
+  "author": "Yarik Dot",
+  "summary": "Postfix Mail Transport agent module",
+  "license": "Apache 2.0",
+  "source": "https://github.com/yarikdot/puppet-postfix.git",
+  "project_page": "https://github.com/yarikdot/puppet-postfix",
+  "issues_url": "https://github.com/yarikdot/puppet-postfix/issues",
+  "description": "Install, enable and configure a complete Postfix Mail Transport\n    Agent instances.",
+  "dependencies": [
+  ]
+}
