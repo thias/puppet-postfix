@@ -4,6 +4,7 @@ class postfix::params {
   case $::osfamily {
     'RedHat': {
       $postfix_version = $::operatingsystemmajrelease ? {
+        #'7'     => '2.10.1',
         '6'     => '2.6.6',
         '5'     => '2.3.3',
         default => '2.6.6',
@@ -33,6 +34,7 @@ class postfix::params {
       $postmap = '/usr/sbin/postmap'
     }
     'Debian': {
+      $postfix_version = undef
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/lib/postfix'
@@ -58,6 +60,7 @@ class postfix::params {
       $postmap = '/usr/sbin/postmap'
     }
     'FreeBSD': {
+      $postfix_version = undef
       $command_directory = '/usr/local/sbin'
       $config_directory = '/usr/local/etc/postfix'
       $daemon_directory = '/usr/local/libexec/postfix'

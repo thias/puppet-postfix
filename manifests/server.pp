@@ -136,6 +136,7 @@ class postfix::server (
   $postgrey_policy_service = undef,
   $clamav                  = false,
   # Parameters
+  $postfix_version        = $::postfix::params::postfix_version,
   $command_directory      = $::postfix::params::command_directory,
   $config_directory       = $::postfix::params::config_directory,
   $daemon_directory       = $::postfix::params::daemon_directory,
@@ -159,6 +160,7 @@ class postfix::server (
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
+  # FIXME : el6 template works for el7, but a new one would be prettier
   if ( $::operatingsystem =~ /RedHat|CentOS/ and versioncmp($::operatingsystemrelease, '6') < 0 ) {
     $filesuffix = '-el5'
   } else {
