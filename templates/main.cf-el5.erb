@@ -798,6 +798,11 @@ smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
 mail_name = <%= @mail_name %>
 
 <% end -%>
+<% if @mailbox_size_limit -%>
+# Mailbox size limit
+mailbox_size_limit = <%= @mailbox_size_limit %>
+
+<% end -%>
 <% if @message_size_limit -%>
 # Message size limit
 message_size_limit = <%= @message_size_limit %>
