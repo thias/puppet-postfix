@@ -119,7 +119,12 @@ myorigin = <%= @myorigin %>
 #inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
+<% if @inet_interfaces and @inet_interfaces.is_a?(String) -%>
 inet_interfaces = <%= @inet_interfaces %>
+<% end -%>
+<% if @inet_interfaces and @inet_interfaces.is_a?(Array) -%>
+inet_interfaces = <%= @inet_interfaces.join(', ') %>
+<% end -%>
 
 # Enable IPv4, and IPv6 if supported
 inet_protocols = <%= @inet_protocols %>
@@ -282,8 +287,11 @@ mynetworks_style = <%= @mynetworks_style %>
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
-<% if @mynetworks -%>
+<% if @mynetworks and @mynetworks.is_a?(String) -%>
 mynetworks = <%= @mynetworks %>
+<% end -%>
+<% if @mynetworks and @mynetworks.is_a?(Array) -%>
+mynetworks = <%= @mynetworks.join(', ') %>
 <% end -%>
 
 # The relay_domains parameter restricts what destinations this system will
@@ -805,6 +813,11 @@ smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
 <% if @mail_name -%>
 # Change the mail daemon name
 mail_name = <%= @mail_name %>
+
+<% end -%>
+<% if @mailbox_size_limit -%>
+# Mailbox size limit
+mailbox_size_limit = <%= @mailbox_size_limit %>
 
 <% end -%>
 <% if @message_size_limit -%>
