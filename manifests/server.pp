@@ -55,6 +55,7 @@ class postfix::server (
   $smtpd_helo_restrictions = [],
   $smtpd_sender_restrictions = [],
   $smtpd_recipient_restrictions = [],
+  $smtpd_recipient_access_list = undef,
   $smtpd_data_restrictions = [],
   $smtpd_end_of_data_restrictions = [],
   $smtpd_delay_reject = false,
@@ -192,6 +193,14 @@ class postfix::server (
     content => template("postfix/main.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
     require => Package[$package_name],
+  }
+  
+  if $smtpd_recipient_access_list {
+    file { "${config_directory}/access_recipients" :
+      content => template("postfix/access_list.erb"),
+      notify  => Service['postfix'],
+      require => Package[$package_name],
+    }
   }
 
   # Optional Spamassassin setup (using spampd)
