@@ -135,6 +135,7 @@ class postfix::server (
   $postgrey                = false,
   $postgrey_policy_service = undef,
   $clamav                  = false,
+  $files                   = {},
   # Parameters
   $postfix_version        = $::postfix::params::postfix_version,
   $command_directory      = $::postfix::params::command_directory,
@@ -156,9 +157,11 @@ class postfix::server (
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
-  $sendmail_path          = $::postfix::params::sendmail_path
+  $sendmail_path          = $::postfix::params::sendmail_path,
+  $compatibility_level    = $::postfix::params::compatibility_level,
 ) inherits ::postfix::params {
-
+  
+  validate_hash($files)
   # Default has el5 files, for el6 a few defaults have changed
   # FIXME : el6 template works for el7, but a new one would be prettier
   if $::operatingsystem =~ /RedHat|CentOS/ {
@@ -187,6 +190,10 @@ class postfix::server (
     ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
+  }
+  file { "${config_directory}/sasl":
+    ensure => directory,
+    group  => $root_group,
   }
 
   file { "${config_directory}/master.cf":
@@ -256,6 +263,6 @@ class postfix::server (
     group      => $root_group,
     postfixdir => $config_directory,
   }
-
+  create_resources(postfix::file, $files)
 }
 
