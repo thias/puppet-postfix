@@ -10,6 +10,9 @@ smtp      inet  n       -       n       -       -       smtpd
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
+<% @smtpd_command_args.each do |command_arg| -%>
+  -o <%= command_arg %>
+<% end -%>
 <% if @submission -%>
 submission inet n       -       n       -       -       smtpd
   -o smtpd_enforce_tls=<%= @submission_smtpd_enforce_tls %>
@@ -23,6 +26,9 @@ smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
+<% end -%>
+<% @smtpd_command_args.each do |command_arg| -%>
+  -o <%= command_arg %>
 <% end -%>
 <% end -%>
 #628      inet  n       -       n       -       -       qmqpd
