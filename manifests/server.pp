@@ -152,6 +152,7 @@ class postfix::server (
   $spamassassin_package   = $::postfix::params::spamassassin_package,
   $spampd_package         = $::postfix::params::spampd_package,
   $spampd_config          = $::postfix::params::spampd_config,
+  $spampd_localcf         = $::postfix::params::spampd_localcf,
   $spampd_template        = $::postfix::params::spampd_template,
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
@@ -211,7 +212,7 @@ class postfix::server (
       notify  => Service['spampd'],
     }
     # Change the spamassassin options
-    file { '/etc/mail/spamassassin/local.cf':
+    file { $spampd_localcf:
       require => Package[$spamassassin_package],
       content => template('postfix/spamassassin-local.cf.erb'),
       notify  => Service['spampd'],
