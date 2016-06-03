@@ -23,6 +23,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
       $spamassassin_package = 'spamassassin'
+      $spamassassin_localcf = '/etc/mail/spamassassin/local.cf'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/sysconfig/spampd'
       $spampd_template = 'postfix/sysconfig-spampd.erb'
@@ -49,6 +50,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
       $spamassassin_package = 'spamassassin'
+      $spamassassin_localcf = '/etc/mail/spamassassin/local.cf'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/default/spampd'
       $spampd_template = 'postfix/default-spampd.erb'
@@ -75,6 +77,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'mail/postgrey'
       $spamassassin_package = 'mail/spamassassin'
+      $spamassassin_localcf = '/usr/local/etc/mail/spamassassin/local.cf'
       $spampd_package = 'mail/spampd'
       $spampd_config = '/etc/sysconfig/spampd'
       $spampd_template = 'postfix/sysconfig-spampd.erb'
