@@ -47,4 +47,3 @@ define postfix::file (
   }
 
 }
-
