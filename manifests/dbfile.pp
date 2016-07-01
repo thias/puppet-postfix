@@ -57,4 +57,3 @@ define postfix::dbfile (
   }
 
 }
-

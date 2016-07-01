@@ -99,8 +99,8 @@ class postfix::server (
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
   # smtps should allow unauthenticated delivery (for local or relay_domains for
-  # example) so no explicit reject. smtps port 465 is non-standards compliant 
-  # anyway so no one true answer. 
+  # example) so no explicit reject. smtps port 465 is non-standards compliant
+  # anyway so no one true answer.
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
@@ -156,7 +156,8 @@ class postfix::server (
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
-  $sendmail_path          = $::postfix::params::sendmail_path
+  $sendmail_path          = $::postfix::params::sendmail_path,
+  $compatibility_level    = $::postfix::params::compatibility_level,
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -252,4 +253,3 @@ class postfix::server (
   }
 
 }
-
