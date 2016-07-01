@@ -157,6 +157,7 @@ class postfix::server (
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
   $sendmail_path          = $::postfix::params::sendmail_path,
+  $compatibility_level    = $::postfix::params::compatibility_level,
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
