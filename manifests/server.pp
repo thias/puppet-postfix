@@ -14,6 +14,7 @@ class postfix::server (
   $myhostname = $::fqdn,
   $mydomain = false,
   $myorigin = '$myhostname',
+  $append_at_myorigin = 'yes'
   $inet_interfaces = 'localhost',
   $inet_protocols = 'all',
   $proxy_interfaces = false,
