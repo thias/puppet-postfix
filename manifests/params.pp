@@ -33,6 +33,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $smtp_generic_maps_file = '/etc/postfix/generic'
     }
     'Debian': {
       $postfix_version = undef
@@ -60,6 +61,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $smtp_generic_maps_file = '/etc/postfix/generic'
     }
     'FreeBSD': {
       $postfix_version = undef
@@ -87,6 +89,7 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
+      $smtp_generic_maps_file = '/usr/local/etc/postfix/generic'
     }
     default: {
       fail("Unsupported OS family ${::osfamily}")

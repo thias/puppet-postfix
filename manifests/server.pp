@@ -13,6 +13,7 @@ class postfix::server (
   # See the main.cf comments for help on these options
   $myhostname = $::fqdn,
   $mydomain = false,
+  $append_dot_mydomain = 'yes',
   $myorigin = '$myhostname',
   $append_at_myorigin = 'yes',
   $inet_interfaces = 'localhost',
@@ -84,6 +85,10 @@ class postfix::server (
   $canonical_maps = false,
   $sender_canonical_maps = false,
   $smtp_generic_maps = false,
+  $smtp_generic_maps_type = 'hash',
+  $smtp_generic_maps_file = $::postfix::params::smtp_generic_maps_file,
+  $smtp_generic_maps_definitions = [],
+  $postmap = $::postfix::params::postmap,
   $relocated_maps = false,
   $extra_main_parameters = {},
   # master.cf
@@ -252,6 +257,18 @@ class postfix::server (
     group      => $root_group,
     postfixdir => $config_directory,
   }
-
+  if $smtp_generic_maps {
+    file { $smtp_generic_maps_file:
+      ensure  => present,
+      content => template('postfix/smtp_generic_maps.erb'),
+    }
+    ~>
+    exec { 'Update postmap':
+      command     => "${postmap} ${smtp_generic_maps_file}",
+      subscribe   => File[$smtp_generic_maps_file],
+      refreshonly => true,
+      notify      => Service['postfix'],
+    }
+  }
 }
 
