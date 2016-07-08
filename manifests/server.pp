@@ -88,6 +88,7 @@ class postfix::server (
   $smtp_generic_maps_type = 'hash',
   $smtp_generic_maps_file = $::postfix::params::smtp_generic_maps_file,
   $smtp_generic_maps_definitions = [],
+  $compatibility_level = '0'
   $smtputf8_enable = 'yes',
   $postmap = $::postfix::params::postmap,
   $relocated_maps = false,
