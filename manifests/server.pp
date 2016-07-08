@@ -13,7 +13,9 @@ class postfix::server (
   # See the main.cf comments for help on these options
   $myhostname = $::fqdn,
   $mydomain = false,
+  $append_dot_mydomain = 'yes',
   $myorigin = '$myhostname',
+  $append_at_myorigin = 'yes',
   $inet_interfaces = 'localhost',
   $inet_protocols = 'all',
   $proxy_interfaces = false,
@@ -83,6 +85,12 @@ class postfix::server (
   $canonical_maps = false,
   $sender_canonical_maps = false,
   $smtp_generic_maps = false,
+  $smtp_generic_maps_type = 'hash',
+  $smtp_generic_maps_file = $::postfix::params::smtp_generic_maps_file,
+  $smtp_generic_maps_definitions = [],
+  $compatibility_level = '0',
+  $smtputf8_enable = 'yes',
+  $postmap = $::postfix::params::postmap,
   $relocated_maps = false,
   $extra_main_parameters = {},
   # master.cf
@@ -152,6 +160,7 @@ class postfix::server (
   $spamassassin_package   = $::postfix::params::spamassassin_package,
   $spampd_package         = $::postfix::params::spampd_package,
   $spampd_config          = $::postfix::params::spampd_config,
+  $spamassassin_localcf   = $::postfix::params::spamassassin_localcf,
   $spampd_template        = $::postfix::params::spampd_template,
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
@@ -211,7 +220,7 @@ class postfix::server (
       notify  => Service['spampd'],
     }
     # Change the spamassassin options
-    file { '/etc/mail/spamassassin/local.cf':
+    file { $spamassassin_localcf:
       require => Package[$spamassassin_package],
       content => template('postfix/spamassassin-local.cf.erb'),
       notify  => Service['spampd'],
@@ -250,6 +259,18 @@ class postfix::server (
     group      => $root_group,
     postfixdir => $config_directory,
   }
-
+  if $smtp_generic_maps {
+    file { $smtp_generic_maps_file:
+      ensure  => present,
+      content => template('postfix/smtp_generic_maps.erb'),
+    }
+    ~>
+    exec { 'Update postmap':
+      command     => "${postmap} ${smtp_generic_maps_file}",
+      subscribe   => File[$smtp_generic_maps_file],
+      refreshonly => true,
+      notify      => Service['postfix'],
+    }
+  }
 }
 

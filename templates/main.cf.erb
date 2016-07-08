@@ -103,6 +103,9 @@ mydomain = <%= @mydomain %>
 #myorigin = $mydomain
 myorigin = <%= @myorigin %>
 
+append_at_myorigin = <%= @append_at_myorigin %>
+append_dot_mydomain = <%= @append_dot_mydomain %>
+
 # RECEIVING MAIL
 
 # The inet_interfaces parameter specifies the network interface
@@ -940,9 +943,14 @@ sender_canonical_maps = <%= @sender_canonical_maps %>
 
 <% end -%>
 <% if @smtp_generic_maps -%>
-smtp_generic_maps = <%= @smtp_generic_maps %>
+smtp_generic_maps = <%= @smtp_generic_maps_type %>:<%= @smtp_generic_maps_file %>
 
 <% end -%>
+
+smtputf8_enable = <%= @smtputf8_enable %>
+
+compatibility_level = <%= @compatibility_level %>
+
 <% if @postscreen -%>
 # Postscreen configuration
 postscreen_access_list =

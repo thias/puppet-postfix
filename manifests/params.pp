@@ -23,6 +23,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
       $spamassassin_package = 'spamassassin'
+      $spamassassin_localcf = '/etc/mail/spamassassin/local.cf'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/sysconfig/spampd'
       $spampd_template = 'postfix/sysconfig-spampd.erb'
@@ -32,6 +33,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $smtp_generic_maps_file = '/etc/postfix/generic'
     }
     'Debian': {
       $postfix_version = undef
@@ -49,6 +51,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
       $spamassassin_package = 'spamassassin'
+      $spamassassin_localcf = '/etc/mail/spamassassin/local.cf'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/default/spampd'
       $spampd_template = 'postfix/default-spampd.erb'
@@ -58,6 +61,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $smtp_generic_maps_file = '/etc/postfix/generic'
     }
     'FreeBSD': {
       $postfix_version = undef
@@ -75,6 +79,7 @@ class postfix::params {
       $postfix_package_ensure = installed
       $postgrey_package = 'mail/postgrey'
       $spamassassin_package = 'mail/spamassassin'
+      $spamassassin_localcf = '/usr/local/etc/mail/spamassassin/local.cf'
       $spampd_package = 'mail/spampd'
       $spampd_config = '/etc/sysconfig/spampd'
       $spampd_template = 'postfix/sysconfig-spampd.erb'
@@ -84,6 +89,7 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
+      $smtp_generic_maps_file = '/usr/local/etc/postfix/generic'
     }
     default: {
       fail("Unsupported OS family ${::osfamily}")

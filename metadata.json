@@ -1,6 +1,6 @@
 {
   "name": "thias-postfix",
-  "version": "0.3.4",
+  "version": "0.4.1",
   "author": "Matthias Saou",
   "license": "Apache-2.0",
   "summary": "Postfix Mail Transport Agent module",
