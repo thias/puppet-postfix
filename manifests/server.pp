@@ -89,6 +89,7 @@ class postfix::server (
   $smtp_content_filter = [],
   $smtps_content_filter = [],
   $submission = false,
+  $maxproc = '100',
   # EL5
   $submission_smtpd_enforce_tls = 'yes',
   # EL6
@@ -103,6 +104,10 @@ class postfix::server (
   # anyway so no one true answer. 
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
+  # Verifycache optimization
+  $address_verify_positive_expire_time = false,
+  $address_verify_negative_expire_time = false,
+  $address_verify_cache_cleanup_interval = false,
   # Other files
   $header_checks = [],
   $body_checks = [],
