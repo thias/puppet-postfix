@@ -883,13 +883,17 @@ smtpd_client_restrictions =
 <% end -%>
 <% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
+<% if !@smtpd_recipient_restrictions.empty? -%>
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
 <% end -%>
+<% end -%>
+<% if @postgrey -%>
 <% if @postgrey_policy_service -%>
   check_policy_service <%= @postgrey_policy_service %>,
 <% else -%>
   check_policy_service unix:postgrey/socket,
+<% end -%>
 <% end -%>
 
 <% end -%>
