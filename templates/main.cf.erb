@@ -754,6 +754,14 @@ smtpd_tls_ask_ccert = yes
 tls_append_default_CA = yes
 <% end -%>
 
+<% if @smtpd_tls_CAfile -%>
+smtpd_tls_CAfile = <%= @smtpd_tls_CAfile %>
+<% end -%>
+
+<% if @smtpd_tls_CApath -%>
+smtpd_tls_CApath = <%= @smtpd_tls_CApath %>
+<% end -%>
+
 <% end -%>
 <% if @smtpd_sasl_auth -%>
 # Auth against external daemon (usually dovecot or cyrus)
