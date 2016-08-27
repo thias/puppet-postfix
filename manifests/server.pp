@@ -153,7 +153,7 @@ class postfix::server (
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
-  $sendmail_path          = $::postfix::params::sendmail_path
+  $sendmail_path          = $::postfix::params::sendmail_path,
   $milters                = undef,
 ) inherits ::postfix::params {
 
