@@ -7,7 +7,7 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 smtp      inet  n       -       n       -       -       smtpd
-<% if @smtp_content_filter -%>
+<% if !@smtp_content_filter.empty? -%>
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
@@ -23,7 +23,7 @@ smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-<% if @smtps_content_filter -%>
+<% if !@smtps_content_filter.empty? -%>
 <% @smtps_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
