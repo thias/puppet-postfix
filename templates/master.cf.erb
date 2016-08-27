@@ -10,8 +10,10 @@
 # ==========================================================================
 <% unless @postscreen -%>
 smtp      inet  n       -       n       -       -       smtpd
+  -o syslog_name=postfix/smtp
 <% else -%>
 smtp      inet  n       -       n       -       1       postscreen
+  -o syslog_name=postfix/smtp
 tlsproxy  unix  -       -       n       -       0       tlsproxy
 dnsblog   unix  -       -       n       -       0       dnsblog
 smtpd     pass  -       -       n       -       -       smtpd
@@ -21,6 +23,7 @@ smtpd     pass  -       -       n       -       -       smtpd
 <% end -%>
 <% if @submission -%>
 submission inet n       -       n       -       -       smtpd
+  -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=<%= @submission_smtpd_tls_security_level %>
   -o smtpd_sasl_auth_enable=<%= @submission_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @submission_smtpd_client_restrictions %>
@@ -28,6 +31,7 @@ submission inet n       -       n       -       -       smtpd
 <% end -%>
 <% if @ssl -%>
 smtps     inet  n       -       n       -       -       smtpd
+  -o syslog_name=postfix/smtps
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=<%= @smtps_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @smtps_smtpd_client_restrictions %>
