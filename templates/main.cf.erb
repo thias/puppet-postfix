@@ -86,7 +86,7 @@ myhostname = <%= @myhostname %>
 mydomain = <%= @mydomain %>
 <% end -%>
 
-# Use nsswitch and look into /etc/hosts if no dns record is found
+# Use nsswitch if no dns record is found
 smtp_host_lookup = dns, native
 
 # SENDING MAIL
