@@ -196,7 +196,7 @@ class postfix::server (
   }
 
   if $smtpd_recipient_access_list {
- 	  file { "${config_directory}/${smtpd_recipient_access_list}" :
+ 	  file { "${config_directory}/access_recipients" :
  	    content => template("postfix/access_list.erb"),
  	    notify  => Service['postfix'],
       require => Package[$package_name],
