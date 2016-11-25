@@ -140,6 +140,7 @@ class postfix::server (
   $command_directory      = $::postfix::params::command_directory,
   $config_directory       = $::postfix::params::config_directory,
   $daemon_directory       = $::postfix::params::daemon_directory,
+  $default_privs          = $::postfix::params::default_privs,
   $data_directory         = $::postfix::params::data_directory,
   $manpage_directory      = $::postfix::params::manpage_directory,
   $readme_directory       = $::postfix::params::readme_directory,
