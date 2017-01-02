@@ -768,6 +768,10 @@ tls_append_default_CA = yes
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = <%= @smtpd_sasl_type %>
 smtpd_sasl_path = <%= @smtpd_sasl_path %>
+smtpd_sasl_security_options = <%= @smtpd_sasl_security_options %>
+smtpd_sasl_local_domain = <%= @smtpd_sasl_local_domain %>
+broken_sasl_auth_clients = <%= @broken_sasl_auth_clients %>
+smtpd_sasl_authenticated_header = <%= @smtpd_sasl_authenticated_header %>
 
 <% end -%>
 <% if @smtp_sasl_auth -%>
