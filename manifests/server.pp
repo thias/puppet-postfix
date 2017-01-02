@@ -39,6 +39,7 @@ class postfix::server (
   $mailbox_size_limit = undef,
   $message_size_limit = false,
   $mail_name = false,
+  $import_environment = false,
   $virtual_alias_domains = false,
   $virtual_alias_maps = false,
   $virtual_mailbox_domains = false,
