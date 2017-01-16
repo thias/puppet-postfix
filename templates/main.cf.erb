@@ -349,6 +349,9 @@ relay_domains = <%= @relay_domains %>
 <% if @relayhost -%>
 relayhost = <%= @relayhost %>
 <% end -%>
+<% if @sender_dependent_relayhost_maps -%>
+sender_dependent_relayhost_maps = <%= @sender_dependent_relayhost_maps %>
+<% end -%>
 
 # REJECTING UNKNOWN RELAY USERS
 #

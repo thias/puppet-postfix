@@ -25,6 +25,7 @@ class postfix::server (
   $mynetworks = false,
   $relay_domains = false,
   $relayhost = false,
+  $sender_dependent_relayhost_maps = undef,
   $relay_recipient_maps = false,
   $transport_maps = false,
   $in_flow_delay = '1s',
