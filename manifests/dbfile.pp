@@ -50,9 +50,9 @@ define postfix::dbfile (
   } else {
 
     exec { "${postmap} ${title}":
-      cwd         => $postfixdir,
-      subscribe   => File["${postfixdir}/${title}"],
-      refreshonly => true,
+      cwd       => $postfixdir,
+      subscribe => File["${postfixdir}/${title}"],
+      creates   => "${postfixdir}/${title}.db",
       # No need to notify the service, since it detects changed files
     }
 
