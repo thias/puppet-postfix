@@ -33,12 +33,14 @@ define postfix::dbfile (
 ) {
 
   file { "${postfixdir}/${title}":
-    owner   => $owner,
-    group   => $group,
-    mode    => $mode,
-    content => $content,
-    source  => $source,
-    ensure  => $ensure,
+    owner     => $owner,
+    group     => $group,
+    mode      => $mode,
+    content   => $content,
+    source    => $source,
+    ensure    => $ensure,
+    show_diff => false,
+    backup    => false,
   }
 
   if $ensure == 'absent' {
