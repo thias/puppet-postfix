@@ -192,8 +192,9 @@ class postfix::server (
     restart   => $service_restart,
   }
   file { "${config_directory}/sasl":
-    ensure => directory,
-    group  => $root_group,
+    ensure  => directory,
+    group   => $root_group,
+    require => Package[$package_name],
   }
 
   file { "${config_directory}/master.cf":
