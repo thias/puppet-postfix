@@ -37,7 +37,10 @@ class postfix::params {
       $postfix_version = undef
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
-      $daemon_directory = '/usr/lib/postfix'
+      $daemon_directory = $::operatingsystemmajrelease ? {
+        '18.04' => '/usr/lib/postfix/sbin',
+        default => '/usr/lib/postfix',
+      }
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = '/usr/share/doc/postfix'
