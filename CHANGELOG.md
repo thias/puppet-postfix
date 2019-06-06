@@ -1,3 +1,6 @@
+#### 2019-06-05 - 0.3.5
+* Add support for RHEL8.
+
 #### 2016-02-02 - 0.3.4
 * Expanded TLS and client-TLS directives (#28, @adamcstephens).
 * Cosmetic cleanups to main.cf templates.

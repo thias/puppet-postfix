@@ -4,18 +4,24 @@ class postfix::params {
   case $::osfamily {
     'RedHat': {
       $postfix_version = $::operatingsystemmajrelease ? {
-        #'7'     => '2.10.1',
+        '7'     => '2.6.6', # Not correct, but let's not change existing
         '6'     => '2.6.6',
         '5'     => '2.3.3',
-        default => '2.6.6',
+        default => undef,
       }
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/libexec/postfix'
+      $shlib_directory = '/usr/lib64/postfix'
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
-      $readme_directory = "/usr/share/doc/postfix-${postfix_version}/README_FILES"
-      $sample_directory = "/usr/share/doc/postfix-${postfix_version}/samples"
+      if $postfix_version {
+        $readme_directory = "/usr/share/doc/postfix-${postfix_version}/README_FILES"
+        $sample_directory = "/usr/share/doc/postfix-${postfix_version}/samples"
+      } else {
+        $readme_directory = '/usr/share/doc/postfix/README_FILES'
+        $sample_directory = '/usr/share/doc/postfix/samples'
+      }
       $service_restart = '/sbin/service postfix reload'
       $dovecot_directory = '/usr/libexec/dovecot'
       $postfix_package = 'postfix'
@@ -38,6 +44,7 @@ class postfix::params {
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
       $daemon_directory = '/usr/lib/postfix'
+      $shlib_directory = '/usr/lib64/postfix'
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = '/usr/share/doc/postfix'
@@ -64,6 +71,7 @@ class postfix::params {
       $command_directory = '/usr/local/sbin'
       $config_directory = '/usr/local/etc/postfix'
       $daemon_directory = '/usr/local/libexec/postfix'
+      $shlib_directory = '/usr/local/lib64/postfix'
       $data_directory = '/var/db/postfix'
       $manpage_directory = '/usr/local/man'
       $readme_directory = '/usr/local/share/doc/postfix'
