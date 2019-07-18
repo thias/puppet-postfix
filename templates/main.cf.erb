@@ -604,7 +604,7 @@ mailbox_command = <%= @mailbox_command %>
 #
 # For details, see "man header_checks".
 #
-header_checks = regexp:<%= @config_directory %>/header_checks
+header_checks = <%= @header_checks_type %>:<%= @config_directory %>/header_checks
 
 # FAST ETRN SERVICE
 #

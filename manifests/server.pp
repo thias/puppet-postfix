@@ -105,6 +105,7 @@ class postfix::server (
   $master_services = [],
   # Other files
   $header_checks = [],
+  $header_checks_type = 'regexp',
   $body_checks = [],
   # Postscreen - available in Postfix 2.8 and later
   $postscreen                  = false,
