@@ -4,7 +4,7 @@ class postfix::params {
   case $::osfamily {
     'RedHat': {
       $postfix_version = $::operatingsystemmajrelease ? {
-        '7'     => '2.6.6', # Not correct, but let's not change existing
+        '7'     => '2.10.1',
         '6'     => '2.6.6',
         '5'     => '2.3.3',
         default => undef,
