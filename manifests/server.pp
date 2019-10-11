@@ -104,6 +104,7 @@ class postfix::server (
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
+  $header_checks_type = 'regexp',
   $header_checks = [],
   $body_checks = [],
   # Postscreen - available in Postfix 2.8 and later
