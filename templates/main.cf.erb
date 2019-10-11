@@ -929,7 +929,7 @@ smtpd_end_of_data_restrictions =
 <% end -%>
 
 <% end -%>
-body_checks = regexp:<%= @config_directory %>/body_checks
+body_checks = <%= @body_checks_type %>:<%= @config_directory %>/body_checks
 
 <% if @canonical_maps -%>
 canonical_maps = <%= @canonical_maps %>
