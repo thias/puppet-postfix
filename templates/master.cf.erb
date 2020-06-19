@@ -9,12 +9,12 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 <% unless @postscreen -%>
-smtp      inet  n       -       n       -       -       smtpd
+smtp      inet  n       -       n       -       <%= @maxproc %>     smtpd
 <% else -%>
 smtp      inet  n       -       n       -       1       postscreen
 tlsproxy  unix  -       -       n       -       0       tlsproxy
 dnsblog   unix  -       -       n       -       0       dnsblog
-smtpd     pass  -       -       n       -       -       smtpd
+smtpd     pass  -       -       n       -       <%= @maxproc %>     smtpd
 <% end -%>
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
