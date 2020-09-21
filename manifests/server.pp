@@ -89,6 +89,7 @@ class postfix::server (
   $smtp_content_filter = [],
   $smtps_content_filter = [],
   $submission = false,
+  $custom_master = undef,
   # EL5
   $submission_smtpd_enforce_tls = 'yes',
   # EL6
@@ -99,8 +100,8 @@ class postfix::server (
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
   # smtps should allow unauthenticated delivery (for local or relay_domains for
-  # example) so no explicit reject. smtps port 465 is non-standards compliant 
-  # anyway so no one true answer. 
+  # example) so no explicit reject. smtps port 465 is non-standards compliant
+  # anyway so no one true answer.
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
@@ -182,15 +183,21 @@ class postfix::server (
   package { $package_name: ensure => $postfix_package_ensure, alias => 'postfix' }
 
   service { 'postfix':
+    ensure    => running,
     require   => Package[$package_name],
     enable    => true,
-    ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
   }
 
+  if $custom_master == undef {
+    $master_file = "postfix/master.cf${filesuffix}.erb"
+  } else {
+    $master_file = $custom_master
+  }
+
   file { "${config_directory}/master.cf":
-    content => template("postfix/master.cf${filesuffix}.erb"),
+    content => template($master_file),
     notify  => Service['postfix'],
     require => Package[$package_name],
   }
@@ -258,4 +265,3 @@ class postfix::server (
   }
 
 }
-
