@@ -106,6 +106,7 @@ virtual   unix  -       n       n       -       -       virtual
 lmtp      unix  -       -       n       -       -       lmtp
 anvil     unix  -       -       n       -       1       anvil
 scache    unix  -       -       n       -       1       scache
+postlog   unix-dgram n  -       n       -       1       postlogd
 #
 # ====================================================================
 # Interfaces to non-Postfix software. Be sure to examine the manual
@@ -120,7 +121,7 @@ scache    unix  -       -       n       -       1       scache
 # Also specify in main.cf: maildrop_destination_recipient_limit=1
 #
 #maildrop  unix  -       n       n       -       -       pipe
-#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
+#  flags=DRXhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
 #
 # ====================================================================
 #
@@ -139,7 +140,7 @@ scache    unix  -       -       n       -       1       scache
 # Also specify in main.cf: cyrus_destination_recipient_limit=1
 #
 #cyrus     unix  -       n       n       -       -       pipe
-#  user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -r ${sender} -m ${extension} ${user}
+#  flags=DRX user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -r ${sender} -m ${extension} ${user}
 #
 # ====================================================================
 #
@@ -170,7 +171,7 @@ scache    unix  -       -       n       -       1       scache
 #  ${nexthop} ${user} ${extension}
 #
 #mailman   unix  -       n       n       -       -       pipe
-#  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+#  flags=FRX user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
 <% if @virtual_transport == 'dovecot' -%>
 dovecot   unix  -       n       n       -       -       pipe

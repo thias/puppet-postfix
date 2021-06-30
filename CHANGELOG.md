@@ -1,3 +1,6 @@
+#### 2021-06-30 - 0.3.6
+* Update el8 master.cf to match 8.4 latest changes.
+
 #### 2019-06-05 - 0.3.5
 * Add support for RHEL8.
 
