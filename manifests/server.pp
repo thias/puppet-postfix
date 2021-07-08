@@ -38,6 +38,7 @@ class postfix::server (
   $setgid_group = $::postfix::params::setgid_group,
   $mailbox_size_limit = undef,
   $message_size_limit = false,
+  $allow_mail_to_files = 'alias',
   $mail_name = false,
   $virtual_alias_domains = false,
   $virtual_alias_maps = false,
