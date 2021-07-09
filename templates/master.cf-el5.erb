@@ -7,8 +7,10 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 smtp      inet  n       -       n       -       -       smtpd
+<% if @smtp_content_filter -%>
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
+<% end -%>
 <% end -%>
 <% if @submission -%>
 submission inet n       -       n       -       -       smtpd
@@ -21,8 +23,10 @@ smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-<% @smtp_content_filter.each do |content_filter| -%>
+<% if @smtps_content_filter -%>
+<% @smtps_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
+<% end -%>
 <% end -%>
 <% end -%>
 #628      inet  n       -       n       -       -       qmqpd
