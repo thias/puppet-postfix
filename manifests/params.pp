@@ -28,6 +28,7 @@ class postfix::params {
       $postfix_mysql_package = 'postfix-mysql'
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
+      $postgrey_config = '/etc/sysconfig/postgrey'
       $spamassassin_package = 'spamassassin'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/sysconfig/spampd'
@@ -55,6 +56,7 @@ class postfix::params {
       $postfix_mysql_package = 'postfix-mysql'
       $postfix_package_ensure = installed
       $postgrey_package = 'postgrey'
+      $postgrey_config = '/etc/default/postgrey'
       $spamassassin_package = 'spamassassin'
       $spampd_package = 'spampd'
       $spampd_config = '/etc/default/spampd'
@@ -82,6 +84,7 @@ class postfix::params {
       $postfix_mysql_package = 'mail/postfix'
       $postfix_package_ensure = installed
       $postgrey_package = 'mail/postgrey'
+      $postgrey_config = '/etc/sysconfig/postgrey'
       $spamassassin_package = 'mail/spamassassin'
       $spampd_package = 'mail/spampd'
       $spampd_config = '/etc/sysconfig/spampd'
