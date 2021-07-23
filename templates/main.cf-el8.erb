@@ -1022,3 +1022,12 @@ postscreen_dnsbl_action = <%= @postscreen_dnsbl_action %>
 <% end -%>
 
 <% end -%>
+
+<%- if @opendkim -%>
+# Milter configuration
+# OpenDKIM
+milter_default_action = accept <%= @opendkim_milter_default_action %>
+milter_protocol = 6 <%= @opendkim_milter_protocol %>
+smtpd_milters = local:opendkim/opendkim.sock <%= @opendkim_smtpd_milters %>
+non_smtpd_milters = local:opendkim/opendkim.sock <%= @opendkim_non_smtpd_milters %>
+<%- end -%>
