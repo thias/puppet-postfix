@@ -98,10 +98,14 @@ class postfix::server (
   # submission should only be used for authenticated delivery, so explicitly
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
+  $submission_smtpd_recipient_restrictions = undef,
+  $submission_smtpd_sender_restrictions = undef,
   # smtps should allow unauthenticated delivery (for local or relay_domains for
-  # example) so no explicit reject. smtps port 465 is non-standards compliant 
-  # anyway so no one true answer. 
+  # example) so no explicit reject. smtps port 465 is non-standards compliant
+  # anyway so no one true answer.
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
+  $smtps_smtpd_recipient_restrictions = undef,
+  $smtps_smtpd_sender_restrictions = undef,
   $master_services = [],
   # Other files
   $header_checks = [],
