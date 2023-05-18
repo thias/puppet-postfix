@@ -907,6 +907,19 @@ smtpd_end_of_data_restrictions =
 <% end -%>
 
 <% end -%>
+
+<% if @address_verify_positive_expire_time -%>
+address_verify_positive_expire_time = <%= @address_verify_positive_expire_time %>
+<% end -%>
+
+<% if @address_verify_negative_expire_time -%>
+address_verify_negative_expire_time = <%= @address_verify_negative_expire_time %>
+<% end -%>
+
+<% if @address_verify_cache_cleanup_interval -%>
+address_verify_cache_cleanup_interval = <%= @address_verify_cache_cleanup_interval %>
+<% end -%>
+
 body_checks = regexp:<%= @config_directory %>/body_checks
 
 <% if @canonical_maps -%>
