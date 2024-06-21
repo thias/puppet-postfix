@@ -83,6 +83,7 @@ class postfix::server (
   $canonical_maps = false,
   $sender_canonical_maps = false,
   $smtp_generic_maps = false,
+  $recipient_canonical_maps = false,
   $relocated_maps = false,
   $extra_main_parameters = {},
   # master.cf
