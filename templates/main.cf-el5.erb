@@ -790,6 +790,15 @@ smtp_tls_note_starttls_offer = yes
 <% if @smtp_tls_mandatory_ciphers -%>
 smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
 <% end -%>
+<% if @smtp_helo_name -%>
+smtp_helo_name = <%= @smtp_helo_name  %>
+<% end -%>
+<% if @smtp_bind_address -%>
+smtp_bind_address = <%= @smtp_bind_address  %>
+<% end -%>
+<% if @smtp_bind_address6 -%>
+smtp_bind_address6 = <%= @smtp_bind_address6  %>
+<% end -%>
 
 <% end -%>
 <% if @mail_name -%>
