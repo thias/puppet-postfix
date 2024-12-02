@@ -32,8 +32,10 @@ smtps     inet  n       -       n       -       -       smtpd
   -o smtpd_sasl_auth_enable=<%= @smtps_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @smtps_smtpd_client_restrictions %>
   -o milter_macro_daemon_name=ORIGINATING
+<% if @smtps_content_filter -%>
 <% @smtps_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
+<% end -%>
 <% end -%>
 <% end -%>
 #628      inet  n       -       n       -       -       qmqpd
