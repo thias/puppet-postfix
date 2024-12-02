@@ -43,8 +43,15 @@ class postfix::params {
       $postfix_version = undef
       $command_directory = '/usr/sbin'
       $config_directory = '/etc/postfix'
-      $daemon_directory = '/usr/lib/postfix'
       $shlib_directory = '/usr/lib64/postfix'
+      case $::lsbdistcodename {
+        'trusty': {
+           $daemon_directory = '/usr/lib/postfix'
+        }
+        default: {
+           $daemon_directory = '/usr/lib/postfix/sbin'
+        }
+      }
       $data_directory = '/var/lib/postfix'
       $manpage_directory = '/usr/share/man'
       $readme_directory = '/usr/share/doc/postfix'
@@ -97,5 +104,5 @@ class postfix::params {
       fail("Unsupported OS family ${::osfamily}")
     }
   }
+  $compatibility_level = 2
 }
-
