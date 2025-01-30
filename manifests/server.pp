@@ -11,7 +11,7 @@ class postfix::server (
   # To install postfix-mysql package instead of plain postfix (EL5)
   $mysql = false,
   # See the main.cf comments for help on these options
-  $myhostname = $::fqdn,
+  $myhostname = $facts['networking']['fqdn'],
   $mydomain = false,
   $myorigin = '$myhostname',
   $inet_interfaces = 'localhost',
@@ -161,10 +161,10 @@ class postfix::server (
 
   # Default has el5 files, for el6 a few defaults have changed
   # FIXME : el6 template works for el7, but a new one would be prettier
-  if $::operatingsystem =~ /RedHat|CentOS/ {
-    if versioncmp($::operatingsystemmajrelease, '6') < 0 {
+  if $facts['os']['name'] =~ /RedHat|CentOS/ {
+    if versioncmp($facts['os']['release']['major'], '6') < 0 {
       $filesuffix = '-el5'
-    } elsif versioncmp($::operatingsystemmajrelease, '8') >= 0 {
+    } elsif versioncmp($facts['os']['release']['major'], '8') >= 0 {
       $filesuffix = '-el8'
     } else {
       $filesuffix = ''

@@ -1,3 +1,5 @@
+* Remove legacy facts usage.
+
 #### 2021-06-30 - 0.3.6
 * Update el8 master.cf to match 8.4 latest changes.
 
