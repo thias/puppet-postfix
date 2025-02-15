@@ -133,6 +133,9 @@ class postfix::server (
   $spampd_maxsize      = '512',
   # Other filters
   $postgrey                = false,
+  # whether this class should manage installing and configuring postgrey
+  # if postgrey is requested
+  $postgrey_manage         = true,
   $postgrey_policy_service = undef,
   $clamav                  = false,
   # Parameters
@@ -226,14 +229,16 @@ class postfix::server (
 
   # Optional Postgrey setup
   if $postgrey {
-    # Main package and service it provides
-    package { $postgrey_package: ensure => installed }
-    service { 'postgrey':
-      require   => Package[$postgrey_package],
-      enable    => true,
-      ensure    => running,
-      # When stopped, status returns zero with 1.31-1.el5
-      hasstatus => false,
+    if $postgrey_manage {
+      # Main package and service it provides
+      package { $postgrey_package: ensure => installed }
+      service { 'postgrey':
+        require   => Package[$postgrey_package],
+        enable    => true,
+        ensure    => running,
+        # When stopped, status returns zero with 1.31-1.el5
+        hasstatus => false,
+      }
     }
   }
 
