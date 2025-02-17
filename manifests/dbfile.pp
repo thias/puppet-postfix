@@ -33,12 +33,14 @@ define postfix::dbfile (
 ) {
 
   file { "${postfixdir}/${title}":
-    owner   => $owner,
-    group   => $group,
-    mode    => $mode,
-    content => $content,
-    source  => $source,
-    ensure  => $ensure,
+    owner     => $owner,
+    group     => $group,
+    mode      => $mode,
+    content   => $content,
+    source    => $source,
+    ensure    => $ensure,
+    show_diff => false,
+    backup    => false,
   }
 
   if $ensure == 'absent' {
@@ -48,9 +50,9 @@ define postfix::dbfile (
   } else {
 
     exec { "${postmap} ${title}":
-      cwd         => $postfixdir,
-      subscribe   => File["${postfixdir}/${title}"],
-      refreshonly => true,
+      cwd       => $postfixdir,
+      subscribe => File["${postfixdir}/${title}"],
+      creates   => "${postfixdir}/${title}.db",
       # No need to notify the service, since it detects changed files
     }
 
