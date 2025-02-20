@@ -755,6 +755,9 @@ smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 <% if @smtpd_tls_CAfile -%>
 smtpd_tls_CAfile = <%= @smtpd_tls_CAfile %>
 <% end -%>
+<% if @smtpd_tls_CApath -%>
+smtpd_tls_CApath = <%= @smtpd_tls_CApath %>
+<% end -%>
 <% if @smtpd_tls_ask_ccert -%>
 smtpd_tls_ask_ccert = yes
 <% end -%>
