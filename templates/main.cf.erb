@@ -86,6 +86,9 @@ myhostname = <%= @myhostname %>
 mydomain = <%= @mydomain %>
 <% end -%>
 
+# Use nsswitch if no dns record is found
+smtp_host_lookup = dns, native
+
 # SENDING MAIL
 # 
 # The myorigin parameter specifies the domain that locally-posted
