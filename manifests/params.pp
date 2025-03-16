@@ -38,6 +38,11 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $opendkim = false
+      $opendkim_milter_default_action = 'accept'
+      $opendkim_milter_protocol = '6'
+      $opendkim_smtpd_milters = 'local:opendkim/opendkim.sock'
+      $opendkim_non_smtpd_milters = 'local:opendkim/opendkim.sock'
     }
     'Debian': {
       $postfix_version = undef
@@ -65,6 +70,11 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $opendkim = false
+      $opendkim_milter_default_action = 'accept'
+      $opendkim_milter_protocol = '6'
+      $opendkim_smtpd_milters = 'local:opendkim/opendkim.sock'
+      $opendkim_non_smtpd_milters = 'local:opendkim/opendkim.sock'
     }
     'FreeBSD': {
       $postfix_version = undef
@@ -92,6 +102,11 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
+      $opendkim = false
+      $opendkim_milter_default_action = 'accept'
+      $opendkim_milter_protocol = '6'
+      $opendkim_smtpd_milters = 'local:opendkim/opendkim.sock'
+      $opendkim_non_smtpd_milters = 'local:opendkim/opendkim.sock'
     }
     default: {
       fail("Unsupported OS family ${facts['os']['family']}")

@@ -135,6 +135,12 @@ class postfix::server (
   $postgrey                = false,
   $postgrey_policy_service = undef,
   $clamav                  = false,
+  # OpenDKIM
+  $opendkim                        = $::postfix::params::opendkim,
+  $opendkim_milter_default_action  = $::postfix::params::opendkim_milter_default_action
+  $opendkim_milter_protocol        = $::postfix::params::opendkim_milter_protocol
+  $opendkim_smtpd_milters          = $::postfix::params::opendkim_smtpd_milters
+  $opendkim_non_smtpd_milters      = $::postfix::params::opendkim_non_smtpd_milters
   # Parameters
   $postfix_version        = $::postfix::params::postfix_version,
   $command_directory      = $::postfix::params::command_directory,
