@@ -19,6 +19,9 @@ smtpd     pass  -       -       n       -       -       smtpd
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
+<% @smtpd_command_args.each do |command_arg| -%>
+  -o <%= command_arg %>
+<% end -%>
 <% if @submission -%>
 submission inet n       -       n       -       -       smtpd
   -o smtpd_tls_security_level=<%= @submission_smtpd_tls_security_level %>
@@ -34,6 +37,9 @@ smtps     inet  n       -       n       -       -       smtpd
   -o milter_macro_daemon_name=ORIGINATING
 <% @smtps_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
+<% end -%>
+<% @smtpd_command_args.each do |command_arg| -%>
+  -o <%= command_arg %>
 <% end -%>
 <% end -%>
 #628      inet  n       -       n       -       -       qmqpd
