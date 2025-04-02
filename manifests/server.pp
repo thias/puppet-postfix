@@ -84,6 +84,9 @@ class postfix::server (
   $sender_canonical_maps = false,
   $smtp_generic_maps = false,
   $relocated_maps = false,
+  $smtp_bind_address = undef,
+  $smtp_bind_address6 = undef,
+  $smtp_helo_name = undef,
   $extra_main_parameters = {},
   # master.cf
   $smtp_content_filter = [],
