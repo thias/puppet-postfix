@@ -4,6 +4,8 @@ class postfix::params {
   case $facts['os']['family'] {
     'RedHat': {
       $postfix_version = $facts['os']['release']['major'] ? {
+        '9'     => '3.5.25',
+        '8'     => '3.5.8',
         '7'     => '2.6.6', # Not correct, but let's not change existing
         '6'     => '2.6.6',
         '5'     => '2.3.3',
