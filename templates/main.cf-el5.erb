@@ -803,7 +803,7 @@ message_size_limit = <%= @message_size_limit %>
 
 <% end -%>
 # Make nobody redirect to /dev/null work
-allow_mail_to_files = alias
+allow_mail_to_files = <%= @allow_mail_to_files %>
 
 <% if @virtual_alias_domains -%>
 virtual_alias_domains =
