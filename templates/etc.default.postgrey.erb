@@ -1,0 +1,28 @@
+# This file is managed by puppet
+# postgrey startup options, created for Debian
+
+# you may want to set
+#   --delay=N   how long to greylist, seconds (default: 300)
+#   --max-age=N delete old entries after N days (default: 35)
+# see also the postgrey(8) manpage
+
+<% if (@postgrey).is_a?(String) == true
+     postgrey_arg = '--' + @postgrey.sub(/:/,'=')
+   elsif @postgrey_policy_service
+     postgrey_arg = '--' + @postgrey_policy_service.sub(/:/,'=')
+   else @postgrey == true
+     postgrey_arg = '--inet=127.0.0.1:10023'
+   end
+
+   if postgrey_arg =~ %r{unix=[^/]}
+      postgrey_arg.sub!(/=/,'=/var/spool/postfix/')
+   end
+-%>
+POSTGREY_OPTS="<%= postgrey_arg %>"
+
+# the --greylist-text commandline argument can not be easily passed through
+# POSTGREY_OPTS when it contains spaces.  So, insert your text here:
+#POSTGREY_TEXT="Your customized rejection message here"
+<% if (@postgrey_text).is_a?(String) == true -%>
+POSTGREY_TEXT="<%= @postgrey_text %>"
+<% end -%>

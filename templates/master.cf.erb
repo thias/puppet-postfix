@@ -9,25 +9,25 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 <% unless @postscreen -%>
-smtp      inet  n       -       n       -       -       smtpd
+smtp      inet  n       -  <%=@chrt%>   -       -       smtpd
 <% else -%>
-smtp      inet  n       -       n       -       1       postscreen
-tlsproxy  unix  -       -       n       -       0       tlsproxy
-dnsblog   unix  -       -       n       -       0       dnsblog
-smtpd     pass  -       -       n       -       -       smtpd
+smtp      inet  n       -  <%=@chrt%>   -       1       postscreen
+smtpd     pass  -       -  <%=@chrt%>   -       -       smtpd
+dnsblog   unix  -       -  <%=@chrt%>   -       0       dnsblog
+tlsproxy  unix  -       -  <%=@chrt%>   -       0       tlsproxy
 <% end -%>
 <% @smtp_content_filter.each do |content_filter| -%>
   -o content_filter=<%= content_filter %>
 <% end -%>
 <% if @submission -%>
-submission inet n       -       n       -       -       smtpd
+submission inet n       -  <%=@chrt%>   -       -       smtpd
   -o smtpd_tls_security_level=<%= @submission_smtpd_tls_security_level %>
   -o smtpd_sasl_auth_enable=<%= @submission_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @submission_smtpd_client_restrictions %>
   -o milter_macro_daemon_name=ORIGINATING
 <% end -%>
 <% if @ssl -%>
-smtps     inet  n       -       n       -       -       smtpd
+smtps     inet  n       -  <%=@chrt%>   -       -       smtpd
   -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=<%= @smtps_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @smtps_smtpd_client_restrictions %>
@@ -36,34 +36,34 @@ smtps     inet  n       -       n       -       -       smtpd
   -o content_filter=<%= content_filter %>
 <% end -%>
 <% end -%>
-#628      inet  n       -       n       -       -       qmqpd
-pickup    fifo  n       -       n       60      1       pickup
-cleanup   unix  n       -       n       -       0       cleanup
+#628      inet  n       -  <%=@chrt%>   -       -       qmqpd
+pickup    fifo  n       -  <%=@chrt%>   60      1       pickup
+cleanup   unix  n       -  <%=@chrt%>   -       0       cleanup
 qmgr      fifo  n       -       n       300     1       qmgr
 #qmgr     fifo  n       -       n       300     1       oqmgr
-tlsmgr    unix  -       -       n       1000?   1       tlsmgr
-rewrite   unix  -       -       n       -       -       trivial-rewrite
-bounce    unix  -       -       n       -       0       bounce
-defer     unix  -       -       n       -       0       bounce
-trace     unix  -       -       n       -       0       bounce
-verify    unix  -       -       n       -       1       verify
-flush     unix  n       -       n       1000?   0       flush
+tlsmgr    unix  -       -  <%=@chrt%>   1000?   1       tlsmgr
+rewrite   unix  -       -  <%=@chrt%>   -       -       trivial-rewrite
+bounce    unix  -       -  <%=@chrt%>   -       0       bounce
+defer     unix  -       -  <%=@chrt%>   -       0       bounce
+trace     unix  -       -  <%=@chrt%>   -       0       bounce
+verify    unix  -       -  <%=@chrt%>   -       1       verify
+flush     unix  n       -  <%=@chrt%>   1000?   0       flush
 proxymap  unix  -       -       n       -       -       proxymap
 proxywrite unix -       -       n       -       1       proxymap
-smtp      unix  -       -       n       -       -       smtp
+smtp      unix  -       -  <%=@chrt%>   -       -       smtp
 # When relaying mail as backup MX, disable fallback_relay to avoid MX loops
-relay     unix  -       -       n       -       -       smtp
+relay     unix  -       -  <%=@chrt%>   -       -       smtp
 	-o smtp_fallback_relay=
 #       -o smtp_helo_timeout=5 -o smtp_connect_timeout=5
-showq     unix  n       -       n       -       -       showq
-error     unix  -       -       n       -       -       error
-retry     unix  -       -       n       -       -       error
-discard   unix  -       -       n       -       -       discard
+showq     unix  n       -  <%=@chrt%>   -       -       showq
+error     unix  -       -  <%=@chrt%>   -       -       error
+retry     unix  -       -  <%=@chrt%>   -       -       error
+discard   unix  -       -  <%=@chrt%>   -       -       discard
 local     unix  -       n       n       -       -       local
 virtual   unix  -       n       n       -       -       virtual
-lmtp      unix  -       -       n       -       -       lmtp
-anvil     unix  -       -       n       -       1       anvil
-scache    unix  -       -       n       -       1       scache
+lmtp      unix  -       -  <%=@chrt%>   -       -       lmtp
+anvil     unix  -       -  <%=@chrt%>   -       1       anvil
+scache    unix  -       -  <%=@chrt%>   -       1       scache
 #
 # ====================================================================
 # Interfaces to non-Postfix software. Be sure to examine the manual
@@ -77,8 +77,8 @@ scache    unix  -       -       n       -       1       scache
 # maildrop. See the Postfix MAILDROP_README file for details.
 # Also specify in main.cf: maildrop_destination_recipient_limit=1
 #
-#maildrop  unix  -       n       n       -       -       pipe
-#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
+<%= @maildrop_service ? '' : '#' %>maildrop  unix  -       n       n       -       -       pipe
+<%= @maildrop_service ? '' : '#' %>  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}
 #
 # ====================================================================
 #

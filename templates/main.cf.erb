@@ -910,8 +910,10 @@ smtpd_recipient_restrictions =
 <% end -%>
 <% if @postgrey_policy_service -%>
   check_policy_service <%= @postgrey_policy_service %>,
+<% elsif @postgrey.is_a?(String) == true -%>
+  check_policy_service <%= @postgrey %>
 <% else -%>
-  check_policy_service unix:postgrey/socket,
+  check_policy_service inet:127.0.0.1:10023,
 <% end -%>
 
 <% end -%>

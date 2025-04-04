@@ -102,7 +102,10 @@ class postfix::server (
   # example) so no explicit reject. smtps port 465 is non-standards compliant 
   # anyway so no one true answer. 
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
+  $maildrop_service = false,
   $master_services = [],
+  # Debian users may wish to enable chroot for selected services
+  $postfix_master_services_chroot = false,
   # Other files
   $header_checks = [],
   $body_checks = [],
@@ -134,6 +137,8 @@ class postfix::server (
   # Other filters
   $postgrey                = false,
   $postgrey_policy_service = undef,
+  # postgrey_text sets the --greylist-text arg (only works on Debian)
+  $postgrey_text           = undef,
   $clamav                  = false,
   # Parameters
   $postfix_version        = $::postfix::params::postfix_version,
@@ -189,6 +194,12 @@ class postfix::server (
     restart   => $service_restart,
   }
 
+  if ( $postfix_master_services_chroot ) {
+    # Debian master.cf uses chroot for most services (smtp, smtpd, smtps, submission)
+    $chrt='     -    '
+  } else {
+    $chrt='     n    '
+  }
   file { "${config_directory}/master.cf":
     content => template("postfix/master.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
@@ -235,6 +246,16 @@ class postfix::server (
       # When stopped, status returns zero with 1.31-1.el5
       hasstatus => false,
     }
+
+    file { $postgrey_config:
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('postfix/etc.default.postgrey.erb'),
+      notify  => Service['postgrey'],
+    }
+
   }
 
   # Optional ClamAV setup (using clamsmtp)
