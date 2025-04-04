@@ -59,6 +59,7 @@ class postfix::server (
   $smtpd_end_of_data_restrictions = [],
   $smtpd_delay_reject = false,
   $ssl = false,
+  $smtpd_tls_loglevel = 1,
   $smtpd_tls_key_file = undef,
   $smtpd_tls_cert_file = undef,
   $smtpd_tls_CAfile = undef,
