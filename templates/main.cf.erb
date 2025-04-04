@@ -738,7 +738,7 @@ sample_directory = <%= @sample_directory %>
 #
 readme_directory = <%= @readme_directory %>
 
-<% if @ssl -%>
+<% if @ssl or @smtpd_use_tls -%>
 # TLS stuff
 smtpd_use_tls = yes
 smtpd_tls_loglevel = 1
@@ -755,8 +755,20 @@ smtpd_tls_cert_file = /etc/pki/tls/certs/<%= @ssl %>.crt
 <% if @smtpd_tls_CAfile -%>
 smtpd_tls_CAfile = <%= @smtpd_tls_CAfile %>
 <% end -%>
+<% if @smtpd_tls_security_level -%>
+smtpd_tls_security_level = <%= @smtpd_tls_security_level %>
+<% end -%>
 <% if @smtpd_tls_ask_ccert -%>
 smtpd_tls_ask_ccert = yes
+<% end -%>
+<% if @smtpd_tls_mandatory_ciphers -%>
+smtpd_tls_mandatory_ciphers = <%= @smtpd_tls_mandatory_ciphers %>
+<% end -%>
+<% if @smtpd_tls_mandatory_protocols -%>
+smtpd_tls_mandatory_protocols = <%= @smtpd_tls_mandatory_protocols %>
+<% end -%>
+<% if @smtpd_tls_protocols -%>
+smtpd_tls_protocols = <%= @smtpd_tls_protocols %>
 <% end -%>
 <% if @tls_append_default_CA -%>
 tls_append_default_CA = yes
@@ -806,6 +818,15 @@ smtp_tls_note_starttls_offer = yes
 <% end -%>
 <% if @smtp_tls_mandatory_ciphers -%>
 smtp_tls_mandatory_ciphers = <%= @smtp_tls_mandatory_ciphers %>
+<% end -%>
+<% if @smtp_tls_mandatory_protocols -%>
+smtp_tls_mandatory_protocols = <%= @smtp_tls_mandatory_protocols %>
+<% end -%>
+<% if @smtp_tls_protocols -%>
+smtp_tls_protocols = <%= @smtp_tls_protocols %>
+<% end -%>
+<% if @tls_high_cipherlist -%>
+tls_high_cipherlist = <%= @tls_high_cipherlist %>
 <% end -%>
 
 <% end -%>
