@@ -103,6 +103,8 @@ class postfix::server (
   # anyway so no one true answer. 
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
+  $master_smtp_options = {},
+  $master_relay_options = {},
   # Other files
   $header_checks = [],
   $body_checks = [],

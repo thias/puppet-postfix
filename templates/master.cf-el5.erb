@@ -39,10 +39,17 @@ verify    unix  -       -       n       -       1       verify
 flush     unix  n       -       n       1000?   0       flush
 proxymap  unix  -       -       n       -       -       proxymap
 smtp      unix  -       -       n       -       -       smtp
+<% @master_smtp_options.each do |option, value| -%>
+  -o <%= option %>=<%= value %>
+<% end -%>
 # When relaying mail as backup MX, disable fallback_relay to avoid MX loops
 relay     unix  -       -       n       -       -       smtp
-	-o smtp_fallback_relay=
-#       -o smtp_helo_timeout=5 -o smtp_connect_timeout=5
+<% @master_relay_options.each do |option, value| -%>
+  -o <%= option %>=<%= value %>
+<% end -%>
+<% unless @master_relay_options.has_key?("smtp_fallback_relay") -%>
+  -o smtp_fallback_relay=
+<% end -%>
 showq     unix  n       -       n       -       -       showq
 error     unix  -       -       n       -       -       error
 discard   unix  -       -       n       -       -       discard
