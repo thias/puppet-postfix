@@ -22,14 +22,15 @@
 #   }
 #
 define postfix::dbfile (
-  $postfixdir = '/etc/postfix',
-  $owner      = 'root',
-  $group      = 'root',
-  $mode       = '0644',
-  $content    = undef,
-  $source     = undef,
-  $ensure     = undef,
-  $postmap    = $::postfix::params::postmap
+  $postfixdir            = '/etc/postfix',
+  $owner                 = 'root',
+  $group                 = 'root',
+  $mode                  = '0644',
+  $content               = undef,
+  $source                = undef,
+  $ensure                = undef,
+  $postmap               = $::postfix::params::postmap,
+  $default_database_type = $::postfix::params::default_database_type,
 ) {
 
   file { "${postfixdir}/${title}":
@@ -43,11 +44,17 @@ define postfix::dbfile (
 
   if $ensure == 'absent' {
 
-    file { "${postfixdir}/${title}.db": ensure => absent }
+    file { [
+      # All possible files we might have created with supported file_type
+      "${postfixdir}/${title}.db",
+      "${postfixdir}/${title}.lmdb",
+    ]:
+      ensure => 'absent',
+    }
 
   } else {
 
-    exec { "${postmap} ${title}":
+    exec { "${postmap} ${default_database_type}:${title}":
       cwd         => $postfixdir,
       subscribe   => File["${postfixdir}/${title}"],
       refreshonly => true,

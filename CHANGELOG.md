@@ -1,3 +1,5 @@
+* Add support for RHEL10 and its lmdb databases.
+
 #### 2025-02-04 - 0.3.7
 * Remove legacy facts usage.
 

@@ -38,6 +38,11 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      if versioncmp($facts['os']['release']['major'],'10') >= 0 {
+        $default_database_type = 'lmdb'
+      } else {
+        $default_database_type = 'hash'
+      }
     }
     'Debian': {
       $postfix_version = undef
@@ -65,6 +70,7 @@ class postfix::params {
       $newaliases_path = '/usr/bin/newaliases.postfix'
       $sendmail_path = '/usr/sbin/sendmail.postfix'
       $postmap = '/usr/sbin/postmap'
+      $default_database_type = 'hash'
     }
     'FreeBSD': {
       $postfix_version = undef
@@ -92,6 +98,7 @@ class postfix::params {
       $newaliases_path = '/usr/local/bin/newaliases'
       $sendmail_path = '/usr/local/sbin/sendmail'
       $postmap = '/usr/local/sbin/postmap'
+      $default_database_type = 'hash'
     }
     default: {
       fail("Unsupported OS family ${facts['os']['family']}")

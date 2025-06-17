@@ -28,8 +28,9 @@ class postfix::server (
   $relay_recipient_maps = false,
   $transport_maps = false,
   $in_flow_delay = '1s',
-  $alias_maps = 'hash:/etc/aliases',
-  $alias_database = 'hash:/etc/aliases',
+  $default_database_type = $::postfix::params::default_database_type,
+  $alias_maps = "${default_database_type}:/etc/aliases",
+  $alias_database = "${default_database_type}:/etc/aliases",
   $recipient_delimiter = false,
   $home_mailbox = false,
   $mail_spool_directory = false,
@@ -164,6 +165,8 @@ class postfix::server (
   if $facts['os']['name'] =~ /RedHat|CentOS/ {
     if versioncmp($facts['os']['release']['major'], '6') < 0 {
       $filesuffix = '-el5'
+    } elsif versioncmp($facts['os']['release']['major'], '10') >= 0 {
+      $filesuffix = '-el10'
     } elsif versioncmp($facts['os']['release']['major'], '8') >= 0 {
       $filesuffix = '-el8'
     } else {
