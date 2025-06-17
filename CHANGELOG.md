@@ -1,3 +1,4 @@
+#### 2025-06-17 - 0.3.8
 * Add support for RHEL10 and its lmdb databases.
 
 #### 2025-02-04 - 0.3.7
